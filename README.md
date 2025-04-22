@@ -39,6 +39,7 @@ Petopia is a web application that provides a backend API built with Flask and a 
 - Register: `POST /api/v1/users/register`
 - Login: `POST /api/v1/users/login`
 - Logout: `POST /api/v1/users/logout`
+- Update: `PATCH /api/v1/users/{id}`
 
 ### Health Check
 - Health: `GET /health`

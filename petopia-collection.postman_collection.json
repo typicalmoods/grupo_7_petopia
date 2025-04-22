@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5743f170-f09e-4dff-b8cd-c5a6a0929eb0",
+		"_postman_id": "d0e5ab06-8b8c-4478-9094-952c66f14c1d",
 		"name": "petopia-collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "43948855"
@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"usertest-1\",\r\n    \"password\": \"1234Abc\",\r\n    \"email\": \"test@example.com\",\r\n    \"phone\": \"645632562\",\r\n    \"address\": \"Street example, 1\",\r\n    \"birthdate\": \"1984-04-17\"\r\n}",
+							"raw": "{\r\n    \"username\": \"usertest-1\",\r\n    \"password\": \"1234Abc\",\r\n    \"email\": \"test-1@example.com\",\r\n    \"phone\": \"645632569\",\r\n    \"address\": \"Street example, 1\",\r\n    \"birthdate\": \"1984-04-17\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"usertest-1\",\r\n    \"password\": \"1234Abc\"\r\n}",
+							"raw": "{\r\n    \"username\": \"usertest-3\",\r\n    \"password\": \"12345Abc\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -79,6 +79,40 @@
 								"{{api-version}}",
 								"users",
 								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"usertest-3\",\r\n    \"password\": \"12345Abc\",\r\n    \"email\": \"test-3@example.com\",\r\n    \"phone\": \"0987654321\",\r\n    \"address\": \"Street example, 1\",\r\n    \"birthdate\": \"1984-04-17\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/{{api-version}}/users/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api-version}}",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
