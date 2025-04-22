@@ -1,0 +1,57 @@
+name: my-app
+
+services:
+  frontend:
+    build: ./frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+
+  backend:
+    build: ./backend
+    restart: always
+    ports:
+      - "5050:5000"
+    environment:
+      - FLASK_ENV=development
+      - APP_PORT=5000
+      - ENCRYPT_SECRET_KEY=your_secret_key_here
+      - DATABASE_URL=mysql+pymysql://backend_user:backend_password@database/my_app
+    depends_on:
+      database:
+        condition: service_healthy
+
+  db_migrations:
+    image: flyway/flyway
+    command: -url=jdbc:mysql://database?allowPublicKeyRetrieval=true -schemas=my_app -user=backend_user -password=backend_password -connectRetries=5 migrate
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - ./database/migrations:/flyway/sql
+
+  database:
+    image: mysql:8.1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: my_app
+      MYSQL_USER: backend_user
+      MYSQL_PASSWORD: backend_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+
+volumes:
+  db_data:
