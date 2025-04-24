@@ -1,0 +1,350 @@
+/* Reset de márgenes y rellenos */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+    color: #212529;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+
+
+}
+
+/* Estilos generales del header */
+header {
+    background-color: #f8f8f8;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+
+
+}
+
+/* Header superior (logo, buscador, carrito/login) */
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 60.4px;
+
+
+}
+
+/* Logo */
+.logo img {
+    height: 50px;
+    /* Ajusta el tamaño del logo */
+}
+
+/* Buscador */
+/* Contenedor del buscador */
+.search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Estilo del input */
+.barraBusqueda {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.barraBusqueda:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.barraBusqueda:focus {
+    border-color: #007BFF;
+
+}
+
+/* Estilo del botón (lupa) */
+.search-btn {
+    background-color: transparent;
+    position: absolute;
+    right: 5px;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+
+}
+
+
+/* Estilo de la lupa */
+.search-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.user-cart{
+    display: flex;
+}
+/* Carrito y login */
+.user-cart a {
+    padding: 10px;
+    color: #333;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.user-cart a:hover {
+    color: #007bff;
+    /* Cambia color al pasar el mouse */
+}
+
+#carrito-contador {
+    background-color: #cb333b;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
+    top: 30px;
+    left: 40px;
+}
+.carrito-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.carrito-container:hover #mini-carrito {
+  display: block !important;
+}
+
+
+
+/* Estilos de la navegación */
+nav {
+    background-color: #007bff;
+    padding: 10px 0;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+nav ul li {
+    margin: 0 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/*Banner*/
+.slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 3s ease-in-out;
+}
+
+.slider-track img {
+    width: 100%;
+    height: auto;
+    flex-shrink: 0;
+}
+
+
+
+section h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #333;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+
+.grid-dos-imagenes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.grid-dos-imagenes img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.contenedor {
+    margin: 32px 60.4px;
+}
+
+
+#producto-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.producto-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 20px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.producto-card:hover {
+    box-shadow: none;
+}
+
+.producto-imagen {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.producto-imagen-container img {
+    width: 100%;
+    height: auto;
+}
+
+.producto-details {
+    margin-top: 15px;
+}
+
+.producto-marca {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.producto-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 8px 0;
+    cursor: pointer;
+}
+
+.producto-precio {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin: 8px 0;
+}
+
+.agregarAlCarrito {
+    display: flex;
+    background-color: #343a40;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    gap: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+    justify-content: center;
+    align-items: center;
+}
+
+.agregarAlCarrito:hover {
+    background-color: #495057; /* Tono más claro que bg-dark */
+}
+
+
+
+
+
+/* Contenedor del corazón */
+.precio-favorito {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.producto-precio {
+    font-weight: bold;
+}
+
+.favorite-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.favorite-icon svg {
+    fill: #ccc;
+    transition: fill 0.3s ease;
+}
+
+.favorite-icon.favorited svg {
+    fill: #e74c3c;
+}
+
+@media (max-width: 1200px) {
+    .contenedor {
+        max-width: 1400px;
+    }
+
+    #producto-container {
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 columnas en pantallas medianas */
+    }
+}
+
+@media (max-width: 900px) {
+    #producto-container {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columnas en pantallas más pequeñas */
+    }
+}
+
+@media (max-width: 600px) {
+    #producto-container {
+        grid-template-columns: 1fr;
+        /* 1 columna en pantallas muy pequeñas */
+    }
+}
