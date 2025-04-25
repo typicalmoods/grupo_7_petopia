@@ -2,14 +2,14 @@ name: petopia
 
 services:
   frontend:
-    build: ./frontend
+    image: php:8.2-apache                # Usa Apache con PHP
     restart: always
     ports:
-      - "8080:80"
+      - "8080:80"                        
+    volumes:
+      - ./frontend:/var/www/html         
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/usr/share/nginx/html
 
   backend:
     build: ./backend
