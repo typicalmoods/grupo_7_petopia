@@ -49,7 +49,7 @@ header {
 .search-container {
     display: flex;
     align-items: center;
-    position: relative;
+    position: relative; /* Necesario para posicionar elementos hijos */
     width: 100%;
     max-width: 400px;
 }
@@ -73,6 +73,42 @@ header {
     border-color: #007BFF;
 
 }
+
+/*Sugerencias*/
+.sugerencias-container {
+    position: absolute;
+    top: 100%; /* Justo debajo del input */
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none; /* Oculto por defecto */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para mejor visibilidad */
+}
+
+.sugerencia-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.sugerencia-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.sugerencia-item:hover {
+    background-color: #f0f0f0;
+}
+
 
 /* Estilo del botón (lupa) */
 .search-btn {

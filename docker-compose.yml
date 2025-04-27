@@ -1,4 +1,3 @@
-name: petopia
 
 services:
   frontend:
