@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Carrito - Tienda de Animales</title>
+  <title>Carrito - Petopia</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <!-- Tu CSS personalizado -->
@@ -18,7 +18,6 @@
       <div class="col-lg-8 mb-4 h-100">
         <h2 class="mb-4">Tu Carrito</h2>
         <div id="carrito-lista" class="list-group">
-          <!-- Los productos del carrito se cargarán dinámicamente aquí -->
         </div>
         <div id="carrito-vacio" class="text-center" style="display: none;">
           <img src="assets/img/gatocarrito.jpg" alt="Carrito vacío" class="img-fluid mb-3" style="max-width: 200px;">
@@ -97,7 +96,8 @@
       const carritoVacio = document.getElementById("carrito-vacio");
       const subtotalElement = document.getElementById("subtotal");
       const totalElement = document.getElementById("total");
-      const envio = 3.99; // Gastos de envío fijos
+      const envioElement = document.getElementById("envio");
+      let envio = 3.99; // Gastos de envío iniciales
 
       carritoLista.innerHTML = ""; // Limpiar la lista del carrito
       let subtotal = 0;
@@ -106,6 +106,7 @@
         carritoVacio.style.display = "block";
         subtotalElement.textContent = "0,00€";
         totalElement.textContent = "0,00€";
+        envioElement.textContent = "0,00€";
         return;
       } else {
         carritoVacio.style.display = "none";
@@ -136,6 +137,14 @@
         subtotal += producto.precio * producto.cantidad;
         carritoLista.appendChild(item);
       });
+
+      // Actualizar el coste de envío si el subtotal supera los 30€
+      if (subtotal > 30) {
+        envio = 0;
+        envioElement.textContent = "Gratis";
+      } else {
+        envioElement.textContent = `${envio.toFixed(2)}€`;
+      }
 
       // Actualizar subtotal y total
       subtotalElement.textContent = `${subtotal.toFixed(2)}€`;

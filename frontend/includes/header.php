@@ -15,20 +15,17 @@
         <div class="header-top ">
             <!-- Logo -->
             <div class="logo">
-                <img src="./assets/img/" alt="Logo de la marca">
+                <a href="index.php">
+                    <img src="./assets/img/logoPetopia.png" alt="Logo de la marca">
+                </a>
             </div>
 
             <!-- Buscador -->
             <div class="search-container">
-                <input type="text" class="barraBusqueda" placeholder="Buscar productos">
-                <button class="search-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc" class="bi bi-search"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
+                <input type="text" class="barraBusqueda form-control" placeholder="Buscar productos">
+                <button class="search-btn btn">
+                    <i class="bi bi-search"></i> <!-- Ícono de lupa de Bootstrap -->
                 </button>
-                <div id="sugerencias" class="sugerencias-container"></div>
             </div>
 
 
@@ -42,7 +39,7 @@
                     </svg>
                 </a>
                   <!-- Icono de favoritos (corazón) -->
-                <a href="/favoritos" title="Favoritos">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#favoritesModal" title="Favoritos">
                     <i class="bi bi-bookmark-heart" style="font-size: 28px;"></i>
                 </a>
                 <div class="carrito-container position-relative">
@@ -79,20 +76,78 @@
         </div>
 
 
+<!-- Navbar adaptado -->
+<nav class="navbar">
+  <div class="navbar-container">
+  
+    <!-- Menú de navegación -->
+    <ul class="nav-menu">
+      <!-- Perro -->
+      <li class="nav-item">
+        <a href="#" class="nav-link has-dropdown">Perro</a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-column">
+            <h4>Comida</h4>
+            <a href="#">Pienso seco</a>
+            <a href="#">Comida húmeda</a>
+            <a href="#">Snacks</a>
+          </li>
+          <li class="dropdown-column">
+            <h4>Accesorios</h4>
+            <a href="#">Collares</a>
+            <a href="#">Camas</a>
+            <a href="#">Juguetes</a>
+          </li>
+        </ul>
+      </li>
 
-        <!-- Navegación -->
-        <nav class="bg-dark">
-            <ul>
-                <li><a href="index.php">Inicio</a></li>
-                <li><a href="#">Perro</a></li>
-                <li><a href="#">Gatos</a></li>
-                <li><a href="#">Pájaros</a></li>
-                <li><a href="#">Cuidados</a></li>
-                <li><a href="#">Marcas</a></li>
-                <li><a href="#">Ofertas</a></li>
-                <li><a href="#">Servicios</a></li>
-            </ul>
-        </nav>
+      <!-- Gatos -->
+      <li class="nav-item">
+        <a href="#" class="nav-link has-dropdown">Gatos</a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-column">
+            <h4>Comida</h4>
+            <a href="#">Pienso</a>
+            <a href="#">Comida húmeda</a>
+          </li>
+          <li class="dropdown-column">
+            <h4>Accesorios</h4>
+            <a href="#">Rascadores</a>
+            <a href="#">Areneros</a>
+            <a href="#">Juguetes</a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Pájaros -->
+      <li class="nav-item">
+        <a href="#" class="nav-link has-dropdown">Pájaros</a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-column">
+            <h4>Comida</h4>
+            <a href="#">Semillas</a>
+            <a href="#">Snacks</a>
+          </li>
+          <li class="dropdown-column">
+            <h4>Accesorios</h4>
+            <a href="#">Jaulas</a>
+            <a href="#">Juguetes</a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Otros enlaces -->
+      <li class="nav-item"><a href="#" class="nav-link">Cuidados</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Marcas</a></li>
+      <li class="nav-item"><a href="ofertas.php" class="nav-link">Ofertas</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Servicios</a></li>
+    </ul>
+
+   
+  </div>
+</nav>
+
+
     </header>
 
 

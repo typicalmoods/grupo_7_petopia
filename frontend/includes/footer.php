@@ -2,8 +2,8 @@
     <div class="container">
         <div class="row">
             <!-- Logo -->
-            <div class="col-md-3 mb-3">
-                <img src="./assets/img/logo.png" alt="Logo de la Marca" class="img-fluid mb-2">
+            <div class="col-md-3 mb-3 text-center">
+                <img src="./assets/img/logoPetopia.png" alt="Logo de la Marca" class="img-fluid mb-2" style="max-width: 150px; height: auto;">
                 <p class="small">&copy; 2025 Petopia</p>
             </div>
 

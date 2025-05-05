@@ -108,3 +108,28 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de Favoritos -->
+<div class="modal fade" id="favoritesModal" tabindex="-1" aria-labelledby="favoritesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered"> <!-- Cambiado a modal-xl para ocupar el 80% -->
+    <div class="modal-content" style="font-size: 1.25rem;"> <!-- Texto más grande -->
+      <!-- Encabezado del modal -->
+      <div class="modal-header">
+        <h2 class="modal-title mx-auto fw-bold" id="favoritesModalLabel">Mis Favoritos</h2> <!-- Título más grande -->
+      </div>
+      <!-- Cuerpo del modal -->
+      <div class="modal-body">
+        <div id="favoritesList" class="list-group">
+          <!-- Los productos favoritos se cargarán dinámicamente aquí -->
+        </div>
+        <div id="noFavorites" class="text-center text-muted" style="display: none;">
+          <p>No tienes productos en tu lista de favoritos.</p>
+        </div>
+      </div>
+      <!-- Pie del modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

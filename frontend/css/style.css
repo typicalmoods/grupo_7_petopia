@@ -156,8 +156,8 @@ header {
     font-size: 14px;
     font-weight: bold;
     position: absolute;
-    top: 30px;
-    left: 40px;
+    bottom: -5px; /* Ajustado para que esté abajo del ícono */
+    right: -10px; /* Ajustado para que esté a la derecha del ícono */
 }
 .carrito-container{
     display: flex;
@@ -171,31 +171,117 @@ header {
 
 
 /* Estilos de la navegación */
-nav {
-    background-color: #007bff;
-    padding: 10px 0;
+/* Navbar */
+.navbar {
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Roboto', sans-serif;
 }
 
-nav ul {
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
 }
 
-nav ul li {
-    margin: 0 20px;
+.logo-img {
+  height: 50px;
 }
 
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
 }
 
-nav ul li a:hover {
-    text-decoration: underline;
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.nav-item:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-column {
+  margin-right: 2rem;
+}
+
+.dropdown-column h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.dropdown-column a {
+  display: block;
+  text-decoration: none;
+  color: #555;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.dropdown-column a:hover {
+text-decoration: underline;}
+
+/* User cart icons */
+.user-cart {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-cart a {
+  color: #333;
+  text-decoration: none;
+  position: relative;
+}
+
+.user-cart a:hover {
+  color: #007bff;
+}
+
+#carrito-contador {
+  background-color: #cb333b;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  position: absolute;
+  right: -10px; 
+  bottom: 0px;
 }
 
 /*Banner*/
