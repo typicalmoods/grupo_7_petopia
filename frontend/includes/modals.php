@@ -74,25 +74,25 @@
             <span class="input-group-text bg-info text-white">
               <i class="bi bi-person-fill"></i>
             </span>
-            <input type="text" class="form-control bg-light" placeholder="Nombre" required>
+            <input type="text" class="form-control bg-light" placeholder="Nombre" name="username" required>
           </div>
             <div class="input-group mb-3">
           <span class="input-group-text bg-info text-white">
             <i class="bi bi-person-fill"></i>
           </span>
-          <input type="text" class="form-control bg-light" placeholder="Apellidos">
+          <input type="text" class="form-control bg-light" placeholder="Apellidos" name="lastname">
         </div>
           <div class="input-group mb-3">
             <span class="input-group-text bg-info text-white">
               <i class="bi bi-envelope-fill"></i>
             </span>
-            <input type="email" class="form-control bg-light" placeholder="Correo electrónico" required>
+            <input type="email" class="form-control bg-light" placeholder="Correo electrónico" name="email" required>
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text bg-info text-white">
               <i class="bi bi-lock-fill"></i>
             </span>
-            <input type="password" class="form-control bg-light" placeholder="Contraseña" required>
+            <input type="password" class="form-control bg-light" placeholder="Contraseña" name="password" required>
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text bg-info text-white">
@@ -133,3 +133,15 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.querySelector("#registerModal form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const datosUsuario = {
+      username: e.target.querySelector("input[name='username']").value,
+      password: e.target.querySelector("input[name='password']").value,
+      email: e.target.querySelector("input[name='email']").value,
+    };
+    registrarUsuario(datosUsuario);
+  });
+</script>

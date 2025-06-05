@@ -36,6 +36,12 @@
             <h3>Productos Destacados</h3>
             <div id="producto-container"></div>
         </section>
+        <section class="animales contenedor">
+            <h3>Categorías</h3>
+            <div id="secciones-container"></div>
+        </section>
+
+
     </main>
 
     <?php include 'includes/footer.php'; ?>

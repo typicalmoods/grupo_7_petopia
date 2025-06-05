@@ -139,7 +139,7 @@
       });
 
       // Actualizar el coste de envío si el subtotal supera los 30€
-      if (subtotal > 30) {
+      if (subtotal >= 30) {
         envio = 0;
         envioElement.textContent = "Gratis";
       } else {

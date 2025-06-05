@@ -38,6 +38,7 @@ const productos = [
   },
 ];
 
+
 // ----------------- Variables -----------------
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
@@ -283,6 +284,48 @@ function iniciarSlider() {
   }, 5000);
 }
 
+// ----------------- Datos de las secciones -----------------
+const secciones = [
+  {
+    imagen: "./assets/img/perros.jpg",
+    titulo: "Perros",
+  },
+  {
+    imagen: "./assets/img/gatos.jpg",
+    titulo: "Gatos",
+  },
+  {
+    imagen: "./assets/img/pajaros.jpg",
+    titulo: "Pájaros",
+  },
+  {
+    imagen: "./assets/img/otros.jpg",
+    titulo: "Otros Animales",
+  },
+];
+
+// ----------------- Mostrar secciones -----------------
+function mostrarSecciones() {
+  const seccionesContainer = document.getElementById("secciones-container");
+  if (!seccionesContainer) return;
+
+  seccionesContainer.innerHTML = ""; // Limpiar el contenedor
+
+  secciones.forEach((seccion) => {
+    const card = document.createElement("div");
+    card.className = "seccion-card";
+
+    card.innerHTML = `
+      <div class="seccion-imagen-container">
+        <img src="${seccion.imagen}" alt="${seccion.titulo}" class="seccion-imagen" />
+      </div>
+      <h4 class="seccion-titulo">${seccion.titulo}</h4>
+    `;
+
+    seccionesContainer.appendChild(card);
+  });
+}
+
 // ----------------- Inicialización -----------------
 document.addEventListener("DOMContentLoaded", () => {
   if (productContainer) {
@@ -306,28 +349,26 @@ document.addEventListener("DOMContentLoaded", () => {
     botonBuscar.addEventListener("click", filtrarProductos);
   }
 
-  // Activar/desactivar los menús desplegables al hacer clic
-  document.querySelectorAll('.nav-link.has-dropdown').forEach(link => {
-    link.addEventListener('click', function (e) {
-      e.preventDefault();
-      const dropdown = this.nextElementSibling;
-
-      // Cierra otros menús abiertos
-      document.querySelectorAll('.dropdown-menu').forEach(menu => {
-        if (menu !== dropdown) menu.style.display = 'none';
-      });
-
-      // Alterna el estado del menú actual
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    });
-  });
-
-  // Cerrar el menú si se hace clic fuera
-  document.addEventListener('click', function (e) {
-    if (!e.target.closest('.navbar')) {
-      document.querySelectorAll('.dropdown-menu').forEach(menu => {
-        menu.style.display = 'none';
-      });
-    }
-  });
+  mostrarSecciones(); // Generar las tarjetas de secciones
 });
+
+// ----------------- Registro de Usuario -----------------
+const API_BASE_URL = "https://api.example.com"; // Reemplaza con tu URL base
+
+async function registrarUsuario(datosUsuario) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datosUsuario),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      alert("Usuario registrado con éxito");
+    } else {
+      alert(`Error: ${data.message}`);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
