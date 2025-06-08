@@ -24,12 +24,12 @@
     
     <main>
         <section class="banner contenedor">
-            <h2>Petopia</h2>
+            <h3>¡Bienvenido a Petopia! Tu tienda de confianza para mascotas</h3>
         </section>
 
-        <div class="grid-dos-imagenes contenedor">
-            <img src="./assets/img/ofertas.png" alt="Imagen 1" />
-            <img src="./assets/img/banner2.jpeg" alt="Imagen 2" />
+        <div class="principal">
+            <img src="./assets/img/principal.webp" alt="Imagen 1" />
+            <img src="./assets/img/principal2.webp" alt="Imagen 2">
         </div>
           
         <section class="destacados contenedor">
@@ -37,11 +37,9 @@
             <div id="producto-container"></div>
         </section>
         <section class="animales contenedor">
-            <h3>Categorías</h3>
+            <h3>Categorías destacadas</h3>
             <div id="secciones-container"></div>
         </section>
-
-
     </main>
 
     <?php include 'includes/footer.php'; ?>

@@ -22,7 +22,9 @@ if ($categoria === 'todos') {
         <?php while ($producto = $resultado->fetch_assoc()): ?>
             <div class="col">
                 <div class="card h-100">
-                    <img src="<?= $producto['imagen'] ?>" class="card-img-top" alt="<?= $producto['nombre'] ?>">
+                    <a href="detalle.php?id=<?= $producto['id'] ?>">
+                        <img src="<?= $producto['imagen'] ?>" class="card-img-top" alt="<?= $producto['nombre'] ?>">
+                    </a>
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><?= $producto['nombre'] ?></h5>
                         <p class="card-text"><?= substr($producto['descripcion'], 0, 100) ?>...</p>

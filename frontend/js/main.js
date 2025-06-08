@@ -1,36 +1,42 @@
 // ----------------- Productos -----------------
 const productos = [
   {
+    id: 1,
     imagen: "./assets/img/comida.jpg",
     marca: "Marca A",
     description: "Comida para perro adulto sabor pollo",
     precio: "19.99€",
   },
   {
+    id: 2,
     imagen: "./assets/img/comida.jpg",
     marca: "Marca B",
     description: "Comida húmeda para gato con salmón",
     precio: "14.95€",
   },
   {
+    id: 3,
     imagen: "./assets/img/comida.jpg",
     marca: "Marca C",
     description: "Snacks naturales para perros medianos",
     precio: "7.50€",
   },
   {
+    id: 4,
     imagen: "./assets/img/comida.jpg",
     marca: "Marca D",
     description: "Pienso premium para gatos esterilizados",
     precio: "21.30€",
   },
   {
+    id: 5,
     imagen: "./assets/img/comida.jpg",
     marca: "Marca E",
     description: "Alimento para cachorro con cordero",
     precio: "18.25€",
   },
   {
+    id: 6,
     imagen: "./assets/img/comida.jpg",
     marca: "Marca F",
     description: "Barritas dentales para higiene oral canina",
@@ -63,6 +69,7 @@ function mostrarProductos(lista) {
   lista.forEach((producto) => {
     const card = document.createElement("div");
     card.className = "producto-card";
+    card.style.cursor = "pointer"; // Opcional: cambia el cursor
 
     card.innerHTML = `
       <div class="producto-imagen-container">
@@ -74,6 +81,7 @@ function mostrarProductos(lista) {
         <div class="precio-favorito">
           <span class="producto-precio">${producto.precio}</span>
           <span class="favorite-icon ${esFavorito(producto) ? "favorited" : ""}">
+            <!-- icono corazón -->
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-heart-fill" viewBox="0 0 16 16">
               <path fill-rule="evenodd"
@@ -92,6 +100,18 @@ function mostrarProductos(lista) {
         </button>
       </div>
     `;
+
+    // Evento para ir a la página de detalle al hacer clic en la tarjeta (excepto en el botón de carrito o favorito)
+    card.addEventListener("click", (e) => {
+      // Evita que el clic en el botón de añadir al carrito o favorito dispare la redirección
+      if (
+        e.target.closest(".agregarAlCarrito") ||
+        e.target.closest(".favorite-icon")
+      ) {
+        return;
+      }
+      window.location.href = `detalle.php?id=${producto.id}`;
+    });
 
     // Evento para añadir o quitar de favoritos
     card.querySelector(".favorite-icon").addEventListener("click", (e) => {
@@ -287,19 +307,19 @@ function iniciarSlider() {
 // ----------------- Datos de las secciones -----------------
 const secciones = [
   {
-    imagen: "./assets/img/perros.jpg",
+    imagen: "./assets/img/dog.webp",
     titulo: "Perros",
   },
   {
-    imagen: "./assets/img/gatos.jpg",
+    imagen: "./assets/img/cat.webp",
     titulo: "Gatos",
   },
   {
-    imagen: "./assets/img/pajaros.jpg",
+    imagen: "./assets/img/bird.webp",
     titulo: "Pájaros",
   },
   {
-    imagen: "./assets/img/otros.jpg",
+    imagen: "./assets/img/otrosAnimales.webp",
     titulo: "Otros Animales",
   },
 ];
@@ -316,10 +336,10 @@ function mostrarSecciones() {
     card.className = "seccion-card";
 
     card.innerHTML = `
-      <div class="seccion-imagen-container">
+      <a class="seccion-imagen-container">
         <img src="${seccion.imagen}" alt="${seccion.titulo}" class="seccion-imagen" />
-      </div>
       <h4 class="seccion-titulo">${seccion.titulo}</h4>
+      </a>
     `;
 
     seccionesContainer.appendChild(card);

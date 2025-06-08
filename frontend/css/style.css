@@ -16,6 +16,11 @@ body {
   line-height: 1.5;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Estilos generales del header */
 header {
   background-color: #f8f8f8;
@@ -43,7 +48,8 @@ header {
 .search-container {
   display: flex;
   align-items: center;
-  position: relative; /* Necesario para posicionar elementos hijos */
+  position: relative;
+  /* Necesario para posicionar elementos hijos */
   width: 100%;
   max-width: 400px;
 }
@@ -69,7 +75,8 @@ header {
 /*Sugerencias*/
 .sugerencias-container {
   position: absolute;
-  top: 100%; /* Justo debajo del input */
+  top: 100%;
+  /* Justo debajo del input */
   left: 0;
   background: white;
   border: 1px solid #ccc;
@@ -78,8 +85,10 @@ header {
   max-height: 250px;
   overflow-y: auto;
   z-index: 1000;
-  display: none; /* Oculto por defecto */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para mejor visibilidad */
+  display: none;
+  /* Oculto por defecto */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Sombra para mejor visibilidad */
 }
 
 .sugerencia-item {
@@ -120,6 +129,7 @@ header {
 .user-cart {
   display: flex;
 }
+
 /* Carrito y login */
 .user-cart a {
   padding: 10px;
@@ -145,9 +155,12 @@ header {
   font-size: 14px;
   font-weight: bold;
   position: absolute;
-  bottom: -5px; /* Ajustado para que esté abajo del ícono */
-  right: -10px; /* Ajustado para que esté a la derecha del ícono */
+  bottom: -5px;
+  /* Ajustado para que esté abajo del ícono */
+  right: -10px;
+  /* Ajustado para que esté a la derecha del ícono */
 }
+
 .carrito-container {
   display: flex;
   flex-direction: row;
@@ -211,7 +224,8 @@ header {
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 4px 0 8px rgba(0, 0, 0, 0.1),
-    -4px 0 8px rgba(0, 0, 0, 0.1); /* Sombra en los lados y abajo */
+    -4px 0 8px rgba(0, 0, 0, 0.1);
+  /* Sombra en los lados y abajo */
 }
 
 .nav-item:hover .dropdown-menu {
@@ -341,31 +355,41 @@ header {
 section h3 {
   font-size: 1.8rem;
   font-weight: 700;
-  text-transform: uppercase;
   color: #333;
   margin-bottom: 1rem;
   position: relative;
   display: inline-block;
+  text-align: center;
 }
 
-.grid-dos-imagenes {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-.grid-dos-imagenes img {
+.principal {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
   width: 100%;
+  justify-content: center;
+
+}
+
+.principal img {
+  width: 45%;
   height: auto;
   object-fit: cover;
-  border-radius: 8px;
   cursor: pointer;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-radius: 8px;
+
 }
 
 .contenedor {
   margin: 32px 60.4px;
+  display: flex;
+  justify-content: center;
+  /* Centrar horizontalmente */
+  align-items: center;
+  flex-direction: column;
 }
 
 #producto-container {
@@ -429,54 +453,54 @@ section h3 {
 
 /* Contenedor de las secciones */
 #secciones-container {
-  display: grid;
-  justify-items: center;
-  grid-template-columns: repeat(4, 1fr);
+  align-items: stretch;
+  display: flex;
+  justify-content: center;
   margin-top: 1.5rem;
+  gap: 2rem;
 }
 
 /* Tarjetas de secciones */
-.seccion-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 0.5rem; /* Reduce el padding */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 250px; /* Tamaño fijo para hacerlo más pequeño */
-  height: 250px; /* Tamaño fijo para hacerlo cuadrado */
-}
+
 
 .seccion-card:hover {
+  border: 1px solid #ddd;
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 /* Imagen de la tarjeta */
 .seccion-imagen-container {
-  width: 100%;
-  height: 70%; /* Ocupa el 70% de la tarjeta */
-  overflow: hidden;
+  align-items: center;
   border-radius: 8px;
-  margin-bottom: 0.3rem;
+  box-shadow: 0 4px 16px #0000;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 0 2px;
+  min-width: 80px;
+  padding: 12px 26px 18px;
+  transition: transform .15s ease, box-shadow .25s ease-in-out;
 }
 
 .seccion-imagen {
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* Asegura que la imagen se ajuste al contenedor */
+  object-fit: cover;
+  max-width: 80px;
 }
 
 /* Título de la tarjeta */
 .seccion-titulo {
-  font-size: 1rem; /* Reduce el tamaño del texto */
-  font-weight: bold;
-  color: #333;
-  margin-top: 0.2rem;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding-left: 2px;
+  text-transform: uppercase;
+  transition: transform .15s ease;
 }
 
 .agregarAlCarrito {
@@ -495,7 +519,8 @@ section h3 {
 }
 
 .agregarAlCarrito:hover {
-  background-color: #495057; /* Tono más claro que bg-dark */
+  background-color: #495057;
+  /* Tono más claro que bg-dark */
 }
 
 /* Contenedor del corazón */

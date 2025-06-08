@@ -20,7 +20,7 @@
         <div id="carrito-lista" class="list-group">
         </div>
         <div id="carrito-vacio" class="text-center" style="display: none;">
-          <img src="assets/img/gatocarrito.jpg" alt="Carrito vacío" class="img-fluid mb-3" style="max-width: 200px;">
+          <img src="assets/img/gatocarrito.webp" alt="Carrito vacío" class="img-fluid mb-3" style="max-width: 200px;">
           <h4>Tu carrito está vacío</h4>
           <p>Explora nuestra tienda y añade productos a tu carrito.</p>
           <a href="index.php" class="btn btn-primary">Volver a la tienda</a>
@@ -80,7 +80,13 @@
         </div>
       </div>
     </div>
+     
   </main>
+
+    <section class="animales contenedor">
+              <h3>Categorías destacadas</h3>
+              <div id="secciones-container"></div>
+    </section>
 
   <?php include 'includes/footer.php'; ?>
   <?php include 'includes/modals.php'; ?>

@@ -24,7 +24,7 @@
             <div class="search-container">
                 <input type="text" class="barraBusqueda form-control" placeholder="Buscar productos">
                 <button class="search-btn btn">
-                    <i class="bi bi-search"></i> <!-- Ícono de lupa de Bootstrap -->
+                    <i class="bi bi-search"></i>
                 </button>
             </div>
 
@@ -52,6 +52,7 @@
                     <span id="carrito-contador">0</span>
                 </a>
                      <!-- Mini Carrito: se muestra al hacer hover o clic (según tu preferencia) -->
+                <!--
                 <div id="mini-carrito" class="position-absolute end-0 p-3 bg-white border rounded shadow" style="width: 280px; z-index: 1000; display: none; top: calc(100% + 0.5rem);">
                 <h6 class="mb-3">Tu Carrito</h6>
                 <ul id="lista-mini-carrito" class="list-group list-group-flush">
@@ -67,6 +68,7 @@
                 </ul>
                 <a href="checkout.php" class="btn btn-primary btn-sm w-100 mt-3">Ver Carrito</a>
                 </div>
+                -->
 
                 </div>
 
