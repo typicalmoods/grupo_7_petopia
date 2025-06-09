@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request, session
 from http import HTTPStatus
 from users.models.user import User
 import bcrypt
+import logging
 
 user_bp = Blueprint('user_bp', __name__, url_prefix='/api/v1/users')
 
@@ -65,6 +66,7 @@ def update(id):
         return jsonify({"message": "Forbidden: You can only update your own account"}), HTTPStatus.FORBIDDEN
 
     request_data = request.json
+    logging.debug(f"Updating user with ID {id} with data: {request_data}")
 
     try:
         user = User.get_by_id(id)

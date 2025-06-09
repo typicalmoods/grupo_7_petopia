@@ -43,7 +43,13 @@ class User(db.Model):
     
     @staticmethod
     def create(username, hashed_password, email=None, phone=None, address=None, birthdate=None):
-        new_user = User(username=username, password=hashed_password, email=email, phone=phone, address=address, birthdate=birthdate)
+        new_user = User(
+            username=username,
+            password=hashed_password, 
+            email=email, phone=phone, 
+            address=address, 
+            birthdate=birthdate    
+        )
         db.session.add(new_user)
         db.session.commit()
         return new_user
