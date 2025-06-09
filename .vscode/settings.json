@@ -1,5 +1,9 @@
 {
     "python.analysis.extraPaths": [
         "./backend/src"
-    ]
+    ],
+    "python.analysis.diagnosticSeverityOverrides": {
+
+    },
+    "editor.defaultFormatter": "ms-python.black-formatter"
 }
