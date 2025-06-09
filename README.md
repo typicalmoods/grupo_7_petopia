@@ -41,13 +41,28 @@ Petopia is a web application that provides a backend API built with Flask and a 
 - Logout: `POST /api/v1/users/logout`
 - Update: `PATCH /api/v1/users/{id}`
 
+### Products
+- Get product by id: `GET /api/v1/products/{id}`
+- Get all products: `GET /api/v1/products`
+
+### Carts
+- Get cart by id: `GET /api/v1/carts/{id}`
+- Get all carts: `GET /api/v1/carts`
+- Create carts: `POST /api/v1/carts`
+
 ### Health Check
 - Health: `GET /health`
 
 ## Database Migrations
 - Migrations are managed using Flyway.
-- Migration scripts are located in migrations.
-- Rollback scripts are located in rollback.
+- Migration scripts are located in `database/migrations`.
+- Rollback scripts are located in `database/rollback`.
+
+## Setup mocked data
+- There is a utility script to create initial data for the products table in database.
+- This utility is located in: `database/import_data`.
+- Initial data values are stored in file `products_csv`.
+- To use it, you must run service `import_data` in `docker-compose.yml`.
 
 ## Environment Variables
 The following environment variables are used in the project:
