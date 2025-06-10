@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"usertest-3\",\r\n    \"password\": \"12345Abc\"\r\n}",
+							"raw": "{\r\n    \"username\": \"usertest-1\",\r\n    \"password\": \"1234Abc\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -113,6 +113,129 @@
 									"key": "id",
 									"value": "1"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/{{api-version}}/products",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api-version}}",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/{{api-version}}/products/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api-version}}",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "40"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "carts",
+			"item": [
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/{{api-version}}/carts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api-version}}",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/{{api-version}}/carts/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api-version}}",
+								"carts",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create carts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user_id\": 1,\n\t\"products\": [\n        {\n\t\t\t\"product_id\": 1,\n\t\t\t\"quantity\": 4\n        },\n        {\n\t\t\t\"product_id\": 2,\n\t\t\t\"quantity\": 1\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/{{api-version}}/carts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api-version}}",
+								"carts"
 							]
 						}
 					},

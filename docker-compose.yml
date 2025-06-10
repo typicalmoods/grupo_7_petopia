@@ -33,6 +33,13 @@ services:
     volumes:
       - ./database/migrations:/flyway/sql
 
+  import_data:
+    build: ./database/import_data
+    environment:
+      - DB_CONNECTION_STRING=mysql+pymysql://backend_user:backend_password@database/petopia
+    depends_on:
+      - db_migrations
+
   database:
     image: mysql:8.1
     restart: always
