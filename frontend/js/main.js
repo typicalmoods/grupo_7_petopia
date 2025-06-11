@@ -1,4 +1,5 @@
 // ----------------- Productos -----------------
+/*
 const productos = [
   {
     id: 1,
@@ -43,7 +44,7 @@ const productos = [
     precio: "9.99€",
   },
 ];
-
+*/
 
 // ----------------- Variables -----------------
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -54,6 +55,7 @@ const favoritesList = document.getElementById("favoritesList");
 const noFavorites = document.getElementById("noFavorites");
 const inputBusqueda = document.querySelector(".barraBusqueda");
 const botonBuscar = document.querySelector(".search-btn");
+let productosAPI = [];
 
 // Sugerencias
 const sugerenciasContainer = document.createElement("div");
@@ -69,19 +71,21 @@ function mostrarProductos(lista) {
   lista.forEach((producto) => {
     const card = document.createElement("div");
     card.className = "producto-card";
-    card.style.cursor = "pointer"; // Opcional: cambia el cursor
+    card.style.cursor = "pointer";
+
+    // Usa la función para obtener la imagen
+    const imagen = obtenerImagenProducto(producto);
 
     card.innerHTML = `
       <div class="producto-imagen-container">
-        <img src="${producto.imagen}" alt="${producto.marca}" class="producto-imagen" />
+        <img src="${imagen}" alt="${producto.name}" class="producto-imagen" />
       </div>
       <div class="producto-details">
-        <h3 class="producto-marca">${producto.marca}</h3>
+        <h3 class="producto-marca">${producto.name}</h3>
         <p class="producto-description">${producto.description}</p>
         <div class="precio-favorito">
-          <span class="producto-precio">${producto.precio}</span>
+          <span class="producto-precio">${producto.price} €</span>
           <span class="favorite-icon ${esFavorito(producto) ? "favorited" : ""}">
-            <!-- icono corazón -->
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-heart-fill" viewBox="0 0 16 16">
               <path fill-rule="evenodd"
@@ -101,47 +105,52 @@ function mostrarProductos(lista) {
       </div>
     `;
 
-    // Evento para ir a la página de detalle al hacer clic en la tarjeta (excepto en el botón de carrito o favorito)
-    card.addEventListener("click", (e) => {
-      // Evita que el clic en el botón de añadir al carrito o favorito dispare la redirección
-      if (
-        e.target.closest(".agregarAlCarrito") ||
-        e.target.closest(".favorite-icon")
-      ) {
-        return;
-      }
-      window.location.href = `detalle.php?id=${producto.id}`;
-    });
-
-    // Evento para añadir o quitar de favoritos
-    card.querySelector(".favorite-icon").addEventListener("click", (e) => {
-      e.currentTarget.classList.toggle("favorited");
+    card.querySelector('.favorite-icon').addEventListener('click', (e) => {
+      e.stopPropagation();
       toggleFavorito(producto);
-      cargarFavoritosModal(); // Actualizar el modal de favoritos
+      mostrarProductos(lista); // Actualiza el color del corazón
+      cargarFavoritosModal();  // Actualiza el modal de favoritos
     });
 
-    // Evento para añadir al carrito
-    card.querySelector(".agregarAlCarrito").addEventListener("click", () => {
+    card.querySelector('.agregarAlCarrito').addEventListener('click', (e) => {
+      e.stopPropagation();
       agregarProductoAlCarrito(producto);
     });
+
+    // Aquí puedes añadir los listeners para favoritos y carrito si los necesitas
 
     productContainer.appendChild(card);
   });
 }
 
+function obtenerImagenProducto(producto) {
+  switch (producto.id) {
+    case 1: return "/assets/img/comida.jpg";
+    case 2: return "/assets/img/comida.jpg";
+    case 3: return "/assets/img/bird.webp";
+    case 4: return "/assets/img/comida_gato.jpg";
+    case 5: return "/assets/img/juguete1.jpg";
+    case 6: return "/assets/img/juguete2.jpg";
+    case 7: return "/assets/img/accesorio.jpg";
+    case 8: return "/assets/img/accesorio.jpg";
+    case 9: return "/assets/img/juguete1.jpg";
+    case 10: return "/assets/img/juguete2.jpg";
+    case 11: return "/assets/img/accesorio.jpg";
+    case 12: return "/assets/img/accesorio.jpg";
+    default: return "/assets/img/default.jpg";
+  }
+}
+
 // ----------------- Agregar al carrito -----------------
 function agregarProductoAlCarrito(producto) {
-  const existente = carrito.find(
-    (item) =>
-      item.marca === producto.marca && item.description === producto.description
-  );
+  // Busca si el producto ya está en el carrito por id
+  const existente = carrito.find(item => item.id === producto.id);
 
   if (existente) {
     existente.cantidad++;
   } else {
     carrito.push({
       ...producto,
-      precio: parseFloat(producto.precio.replace("€", "")),
       cantidad: 1,
     });
   }
@@ -153,7 +162,7 @@ function agregarProductoAlCarrito(producto) {
 function actualizarContadorCarrito() {
   if (carritoContador)
     carritoContador.textContent = carrito.reduce(
-      (total, p) => total + p.cantidad,
+      (total, p) => total + (p.cantidad || 1),
       0
     );
 }
@@ -242,9 +251,9 @@ function eliminarFavorito(index) {
 // ----------------- Buscar y sugerencias -----------------
 function filtrarProductos() {
   const texto = inputBusqueda.value.toLowerCase();
-  const resultados = productos.filter(
+  const resultados = productosAPI.filter(
     (p) =>
-      p.marca.toLowerCase().includes(texto) ||
+      p.name.toLowerCase().includes(texto) ||
       p.description.toLowerCase().includes(texto)
   );
   mostrarProductos(resultados);
@@ -259,9 +268,9 @@ function mostrarSugerencias() {
     return;
   }
 
-  const coincidencias = productos.filter(
+  const coincidencias = productosAPI.filter(
     (p) =>
-      p.marca.toLowerCase().includes(texto) ||
+      p.name.toLowerCase().includes(texto) ||
       p.description.toLowerCase().includes(texto)
   );
 
@@ -269,11 +278,11 @@ function mostrarSugerencias() {
     const item = document.createElement("div");
     item.className = "sugerencia-item";
     item.innerHTML = `
-      <img src="${producto.imagen}" alt="${producto.marca}">
-      <span>${producto.marca} - ${producto.description}</span>
+      <img src="${producto.image}" alt="${producto.name}">
+      <span>${producto.name} - ${producto.description}</span>
     `;
     item.addEventListener("click", () => {
-      inputBusqueda.value = producto.marca;
+      inputBusqueda.value = producto.name;
       mostrarProductos([producto]);
       sugerenciasContainer.style.display = "none";
     });
@@ -349,9 +358,10 @@ function mostrarSecciones() {
 // ----------------- Inicialización -----------------
 document.addEventListener("DOMContentLoaded", () => {
   if (productContainer) {
-    mostrarProductos(productos);
+    // mostrarProductos(productos); // <-- Elimina o comenta esta línea
+    cargarProductosDestacados();    // <-- Añade esta línea
     actualizarContadorCarrito();
-    cargarFavoritosModal(); // Cargar favoritos en el modal al inicio
+    cargarFavoritosModal();
   }
 
   if (document.querySelector(".slider-track")) {
@@ -390,5 +400,21 @@ async function registrarUsuario(datosUsuario) {
     }
   } catch (error) {
     console.error("Error:", error);
+  }
+}
+
+const API_BASE = 'http://backend:5000/api/v1/';
+
+async function cargarProductosDestacados() {
+  try {
+    const resp = await fetch(`${API_BASE}/products`);
+    if (!resp.ok) throw new Error('Error al obtener productos');
+    const productos = await resp.json();
+    productosAPI = productos; 
+    mostrarProductos(productos);
+  } catch (error) {
+    console.error(error);
+    const contenedor = document.getElementById("producto-container");
+    if (contenedor) contenedor.innerHTML = "<p>Error al cargar productos.</p>";
   }
 }
