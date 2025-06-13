@@ -123,10 +123,10 @@
         item.classList.add("list-group-item", "d-flex", "align-items-center");
 
         item.innerHTML = `
-          <img src="${producto.imagen}" alt="${producto.description}" class="me-3 rounded" style="width:30%;">
+          <img src="${producto.image}" alt="${producto.description}" class="me-3 rounded" style="width:30%;">
           <div class="flex-grow-1">
-            <h5 class="mb-1">${producto.description}</h5>
-            <p class="mb-1">${producto.marca}</p>
+            <h5 class="mb-1">${producto.name}</h5>
+            <p class="mb-1">${producto.description}</p>
             <div class="d-flex align-items-center">
               <small class="me-2">Cantidad:</small>
               <select class="form-select form-select-sm quantity-select" style="width: 80px;" data-index="${index}">
@@ -134,13 +134,13 @@
               </select>
             </div>
           </div>
-          <div class="ms-3"><strong>${(producto.precio * producto.cantidad).toFixed(2)}€</strong></div>
+          <div class="ms-3"><strong>${(producto.price * producto.cantidad).toFixed(2)}€</strong></div>
           <button type="button" class="btn btn-outline-danger btn-sm ms-3 remove-item" data-index="${index}">
             <i class="bi bi-trash"></i>
           </button>
         `;
 
-        subtotal += producto.precio * producto.cantidad;
+        subtotal += producto.price * producto.cantidad;
         carritoLista.appendChild(item);
       });
 
@@ -185,5 +185,7 @@
     // Cargar el carrito al cargar la página
     document.addEventListener("DOMContentLoaded", cargarCarrito);
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

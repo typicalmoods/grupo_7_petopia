@@ -13,7 +13,7 @@ services:
     build: ./backend
     restart: always
     ports:
-      - "5050:5000"
+      - "5051:5000"   # Cambia 5050 por 5051, por ejemplo
     environment:
       - FLASK_ENV=development
       - APP_PORT=5000

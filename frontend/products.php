@@ -38,3 +38,4 @@ if ($categoria === 'todos') {
 </main>
 
 <?php include 'includes/footer.php'; ?>
+
