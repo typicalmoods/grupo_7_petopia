@@ -144,4 +144,38 @@
     };
     registrarUsuario(datosUsuario);
   });
+
+  // Suponiendo que tienes una función para cargar los favoritos
+  function cargarFavoritos(favoritos) {
+    const favoritesList = document.getElementById("favoritesList");
+    const noFavorites = document.getElementById("noFavorites");
+    favoritesList.innerHTML = ""; // Limpiar lista existente
+
+    if (favoritos.length === 0) {
+      noFavorites.style.display = "block";
+    } else {
+      noFavorites.style.display = "none";
+      favoritos.forEach((producto, index) => {
+        const item = document.createElement("div");
+        item.className = "list-group-item d-flex justify-content-between align-items-center";
+        // Modal de favoritos
+        item.innerHTML = `
+          <div class="d-flex align-items-center">
+            <img src="${producto.image || producto.url_image || '/assets/img/default.jpg'}" alt="${producto.name}" class="me-3 rounded" style="width: 50px; height: 50px; object-fit: cover;">
+            <div>
+              <h6 class="mb-0">${producto.name}</h6>
+              <small class="text-muted">${producto.description}</small>
+            </div>
+          </div>
+          <div>
+            <span class="text-primary fw-bold">${producto.price} €</span>
+            <button class="btn btn-danger btn-sm ms-3 remove-favorite" data-index="${index}">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        `;
+        favoritesList.appendChild(item);
+      });
+    }
+  }
 </script>

@@ -1,4 +1,5 @@
 console.log("main.js cargado");
+
 // ----------------- Variables -----------------
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
@@ -22,24 +23,40 @@ function mostrarProductos(lista) {
   productContainer.innerHTML = "";
 
   lista.forEach((producto) => {
+    const imageUrl = producto.image || producto.url_image || '/assets/img/default.jpg';
     const card = document.createElement("div");
     card.className = "producto-card";
     card.style.cursor = "pointer";
     card.setAttribute("data-id", producto.id);
+    card.setAttribute("data-image", imageUrl);
 
     card.innerHTML = `
       <div class="producto-imagen-container">
-        <img src="${producto.image}" alt="${producto.name}" class="producto-imagen" />
+        <img src="${imageUrl}" alt="${producto.name}" class="producto-imagen" />
       </div>
       <div class="producto-details">
         <h3 class="producto-marca">${producto.name}</h3>
         <p class="producto-description">${producto.description}</p>
         <div class="precio-favorito">
           <span class="producto-precio">${producto.price} €</span>
-          <button class="agregarAlCarrito">Añadir al carrito</button>
+          <span class="favorite-icon" data-id="${producto.id}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-heart-fill" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+            </svg>
+          </span>
         </div>
+        <button class="agregarAlCarrito">Añadir al carrito</button>
       </div>
     `;
+
+    // --- Añade este bloque para abrir el detalle ---
+    card.addEventListener("click", function(e) {
+      // Evita que el click en el botón "Añadir al carrito" abra el detalle
+      if (e.target.closest(".agregarAlCarrito")) return;
+      window.location.href = `detalle.php?id=${producto.id}`;
+    });
 
     productContainer.appendChild(card);
   });
@@ -56,11 +73,16 @@ function actualizarContadorCarrito() {
 
 // ----------------- Favoritos -----------------
 function toggleFavorito(producto) {
+  const card = document.querySelector(`.producto-card[data-id="${producto.id}"]`);
+  const image = card ? card.dataset.image : (producto.image || producto.url_image || '/assets/img/default.jpg');
   const existente = favoritos.find(item => item.id == producto.id);
   if (existente) {
     favoritos = favoritos.filter(item => item.id != producto.id);
   } else {
-    favoritos.push(producto);
+    favoritos.push({
+      ...producto,
+      image: image
+    });
   }
   localStorage.setItem("favoritos", JSON.stringify(favoritos));
 }
@@ -109,6 +131,7 @@ function cargarFavoritosModal() {
         const index = e.target.closest("button").dataset.index;
         eliminarFavorito(index);
         cargarFavoritosModal();
+        pintarCorazones();
       });
     });
   }
@@ -209,7 +232,6 @@ const secciones = [
 
 // ----------------- Mostrar secciones -----------------
 function mostrarSecciones() {
-   console.log("mostrarSecciones ejecutada");
   const seccionesContainer = document.getElementById("secciones-container");
   if (!seccionesContainer) return;
 
@@ -230,12 +252,61 @@ function mostrarSecciones() {
   });
 }
 
+function mostrarSeccionesNav() {
+  const navSecciones = document.getElementById("nav-secciones");
+  if (!navSecciones) return;
+  navSecciones.innerHTML = "";
 
+  secciones.forEach((seccion) => {
+    const li = document.createElement("li");
+    li.className = "nav-item";
 
-// ----------------- Inicialización -----------------
-document.addEventListener("DOMContentLoaded", () => {
-  
+    // Define el filtro según el título
+    let filtro = "";
+    if (seccion.titulo === "Perros") filtro = "Dog";
+    else if (seccion.titulo === "Gatos") filtro = "Cat";
+    else if (seccion.titulo === "Pájaros") filtro = "Bird";
+    else if (seccion.titulo === "Otros Animales") filtro = "Otros";
+
+    li.innerHTML = `
+      <a href="index.php?filtro=${filtro}" class="nav-link d-flex align-items-center">
+        <img src="${seccion.imagenAnimal}" alt="${seccion.titulo}" style="max-width: 60px;object-fit:cover;margin-right:8px;">
+        <span>${seccion.titulo}</span>
+      </a>
+    `;
+    navSecciones.appendChild(li);
+  });
+}
+
+// ----------------- Inicialización ÚNICA -----------------
+document.addEventListener("DOMContentLoaded", function() {
+  // --- Filtro por parámetro en la URL ---
+  function getParam(name) {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(name);
+  }
+
+  const filtro = getParam('filtro');
+  if (filtro) {
+    let productosFiltrados = [];
+    if (filtro === "Toys" || filtro === "Food" || filtro === "Accessories") {
+      productosFiltrados = window.productosAPI.filter(p => p.category === filtro);
+    } else if (filtro === "Dog" || filtro === "Cat") {
+      productosFiltrados = window.productosAPI.filter(p => p.animal_species === filtro);
+    }
+    mostrarProductos(productosFiltrados);
+
+    // Oculta slider, banner y principal si hay filtro
+    document.querySelectorAll('.slider, .banner, .principal').forEach(el => el.style.display = "none");
+    // Cambia el título si quieres
+    const titulo = document.querySelector(".destacados h3");
+    if (titulo) titulo.textContent = filtro;
+  } else {
+    mostrarProductos(window.productosAPI);
+  }
+
   mostrarSecciones();
+  mostrarSeccionesNav();
   actualizarContadorCarrito();
   cargarFavoritosModal();
 
@@ -253,66 +324,97 @@ document.addEventListener("DOMContentLoaded", () => {
   if (botonBuscar) {
     botonBuscar.addEventListener("click", filtrarProductos);
   }
-});
 
-// ----------------- Delegación de eventos para "Añadir al carrito" -----------------
-document.addEventListener("DOMContentLoaded", function() {
+  // Delegación de eventos para "Añadir al carrito"
   const contenedor = document.querySelector(".producto-container");
-  if (!contenedor) return;
-  contenedor.addEventListener("click", function(e) {
-    const btn = e.target.closest(".agregarAlCarrito");
-    if (!btn) return;
-    const card = btn.closest(".producto-card");
-    if (!card) return;
+  if (contenedor) {
+    contenedor.addEventListener("click", function(e) {
+      const btn = e.target.closest(".agregarAlCarrito");
+      if (!btn) return;
+      const card = btn.closest(".producto-card");
+      if (!card) return;
 
-    const id = card.getAttribute('data-id');
-    const name = card.querySelector('.producto-marca').textContent;
-    const description = card.querySelector('.producto-description').textContent;
-    const price = card.querySelector('.producto-precio').textContent.replace(' €','');
-    const image = card.querySelector('.producto-imagen').getAttribute('src');
+      const id = card.getAttribute('data-id');
+      const name = card.querySelector('.producto-marca').textContent;
+      const description = card.querySelector('.producto-description').textContent;
+      const price = card.querySelector('.producto-precio').textContent.replace(' €','');
+      const image = card.querySelector('.producto-imagen').getAttribute('src');
 
-    const existente = carrito.find(p => p.id == id);
-    if (existente) {
-      existente.cantidad += 1;
-    } else {
-      carrito.push({
-        id,
-        name,
-        description,
-        price,
-        image,
-        cantidad: 1
-      });
-    }
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-    if (typeof actualizarContadorCarrito === "function") actualizarContadorCarrito();
-    // Muestra el toast de Bootstrap
-    const toastEl = document.getElementById('toastCarrito');
-    if (toastEl) {
-      const toast = new bootstrap.Toast(toastEl);
-      toast.show();
-    }
-  });
-});
-
-// ----------------- Registro de Usuario (opcional) -----------------
-const API_BASE_URL = "https://api.example.com"; // Reemplaza con tu URL base
-
-async function registrarUsuario(datosUsuario) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/users/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(datosUsuario),
+      const existente = carrito.find(p => p.id == id);
+      if (existente) {
+        existente.cantidad += 1;
+      } else {
+        carrito.push({
+          id,
+          name,
+          description,
+          price,
+          image,
+          cantidad: 1
+        });
+      }
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      if (typeof actualizarContadorCarrito === "function") actualizarContadorCarrito();
+      // Muestra el toast de Bootstrap
+      const toastEl = document.getElementById('toastCarrito');
+      if (toastEl) {
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+      }
     });
-    const data = await response.json();
-    if (response.ok) {
-      alert("Usuario registrado con éxito");
-    } else {
-      alert(`Error: ${data.message}`);
-    }
-  } catch (error) {
-    console.error("Error:", error);
   }
-}
+
+  // Favoritos con Corazones
+  function pintarCorazones() {
+    const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    document.querySelectorAll('.favorite-icon').forEach(icon => {
+      const id = parseInt(icon.dataset.id);
+      if (favoritos.some(item => item.id == id)) {
+        icon.classList.add('favorito');
+      } else {
+        icon.classList.remove('favorito');
+      }
+    });
+  }
+
+  document.querySelectorAll('.favorite-icon').forEach(icon => {
+    icon.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const id = parseInt(this.dataset.id);
+      const producto = productosAPI.find(p => p.id == id);
+      if (!producto) return;
+      toggleFavorito(producto);
+      pintarCorazones();
+      cargarFavoritosModal();
+    });
+  });
+
+  pintarCorazones();
+  cargarFavoritosModal();
+
+  // Menú: redirige siempre a index.php con el filtro
+  const btnJuguetes = document.getElementById("ver-juguetes");
+  if (btnJuguetes) {
+    btnJuguetes.addEventListener("click", function(e) {
+      e.preventDefault();
+      window.location.href = "index.php?filtro=Toys";
+    });
+  }
+
+  const btnPerros = document.getElementById("ver-perros");
+  if (btnPerros) {
+    btnPerros.addEventListener("click", function(e) {
+      e.preventDefault();
+      window.location.href = "index.php?filtro=Dog";
+    });
+  }
+
+  const btnGatos = document.getElementById("ver-gatos");
+  if (btnGatos) {
+    btnGatos.addEventListener("click", function(e) {
+      e.preventDefault();
+      window.location.href = "index.php?filtro=Cat";
+    });
+  }
+});
 

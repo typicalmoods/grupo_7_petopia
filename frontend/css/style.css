@@ -84,7 +84,7 @@ header {
   width: 100%;
   max-height: 250px;
   overflow-y: auto;
-  z-index: 1000;
+  z-index: 2000;
   display: none;
   /* Oculto por defecto */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -206,7 +206,8 @@ header {
   font-weight: 500;
   padding: 0.5rem;
   transition: color 0.3s ease;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
+ 
 }
 
 /* Dropdown */
@@ -536,8 +537,8 @@ section h3 {
 .precio-favorito {
   display: flex;
   align-items: center;
-  gap: 2rem;
   justify-content: center;
+  flex-direction: column;
 }
 
 .producto-precio {
@@ -546,17 +547,19 @@ section h3 {
 
 .favorite-icon {
   cursor: pointer;
-  display: flex;
-  align-items: center;
+      padding: 10px;
 }
 
 .favorite-icon svg {
-  fill: #ccc;
-  transition: fill 0.3s ease;
+  color: #bbb;
+  fill: #bbb;
+  transition: color 0.2s, fill 0.2s;
 }
 
+.favorite-icon.favorito svg,
 .favorite-icon.favorited svg {
-  fill: #e74c3c;
+  color: #e74c3c !important;
+  fill: #e74c3c !important;
 }
 
 /* Contenedor de cupones */

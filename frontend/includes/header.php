@@ -82,41 +82,18 @@
 <nav class="navbar">
   <div class="navbar-container">
     <!-- Menú de navegación -->
-    <ul class="nav-menu">
-      <!-- Perro -->
+    <ul class="nav-menu"  id="nav-secciones">
+      <!-- 
       <li class="nav-item">
-        <a href="products.php?categoria=perros" class="nav-link has-dropdown">Perros</a>
-        <ul class="dropdown-menu dropdown-rectangle">
-          <div class="dropdown-content">
-            <!-- Columnas de Comida y Accesorios -->
-            <div class="dropdown-columns">
-              <li class="dropdown-column">
-                <h4>Comida</h4>
-                <a href="#">Pienso seco</a>
-                <a href="#">Comida húmeda</a>
-                <a href="#">Snacks</a>
-              </li>
-              <li class="dropdown-column">
-                <h4>Accesorios</h4>
-                <a href="#">Collares</a>
-                <a href="#">Camas</a>
-                <a href="#">Juguetes</a>
-              </li>
-            </div>
-            <!-- Imagen de Perro -->
-            <div class="dropdown-image">
-              <img src="./assets/img/perro.webp" alt="Imagen de Perro" class="img-fluid">
-            </div>
-          </div>
-        </ul>
+        <a href="index.php?filtro=Dog" class="nav-link has-dropdown">Perros</a>
       </li>
 
-      <!-- Gatos -->
+   
       <li class="nav-item">
-        <a href="products.php?categoria=gatos" class="nav-link has-dropdown">Gatos</a>
-        <ul class="dropdown-menu dropdown-rectangle">
+        <a href="index.php?filtro=Cat" class="nav-link has-dropdown">Gatos</a>
+      <ul class="dropdown-menu dropdown-rectangle">
           <div class="dropdown-content">
-            <!-- Columnas de Comida y Accesorios -->
+           Columnas de Comida y Accesorios 
             <div class="dropdown-columns">
               <li class="dropdown-column">
                 <h4>Comida</h4>
@@ -130,7 +107,7 @@
                 <a href="#">Juguetes</a>
               </li>
             </div>
-            <!-- Imagen de Gato -->
+            Imagen de Gato
             <div class="dropdown-image">
               <img src="./assets/img/gato.webp" alt="Imagen de Gato" class="img-fluid">
             </div>
@@ -138,47 +115,25 @@
         </ul>
       </li>
 
-      <!-- Pájaros -->
+      
       <li class="nav-item">
-        <a href="products.php?categoria=pajaros" class="nav-link has-dropdown">Pájaros</a>
-        <ul class="dropdown-menu dropdown-rectangle">
-          <div class="dropdown-content">
-            <!-- Columnas de Comida y Accesorios -->
-            <div class="dropdown-columns">
-              <li class="dropdown-column">
-                <h4>Comida</h4>
-                <a href="#">Semillas</a>
-                <a href="#">Snacks</a>
-              </li>
-              <li class="dropdown-column">
-                <h4>Accesorios</h4>
-                <a href="#">Jaulas</a>
-                <a href="#">Juguetes</a>
-              </li>
-            </div>
-            <!-- Imagen de Pájaros -->
-            <div class="dropdown-image">
-              <img src="./assets/img/pajaros.webp" alt="Imagen de Pájaros" class="img-fluid">
-            </div>
-          </div>
-        </ul>
+        <a href="#" id="ver-pajaros" class="nav-link has-dropdown">Pájaros</a>
       </li>
 
-      <!-- Cuidados -->
       <li class="nav-item">
-        <a href="products.php?categoria=cuidados" class="nav-link">Cuidados</a>
+        <a href="index.php?filtro=Toys" class="nav-link">Juguetes</a>
       </li>
 
-      <!-- Ofertas -->
+       Ofertas
       <li class="nav-item">
         <a href="ofertas.php" class="nav-link">Ofertas</a>
-      </li>
+      </li> -->
     </ul>
   </div>
 </nav>
 
 
     </header>
- 
+
 
 

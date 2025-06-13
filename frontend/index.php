@@ -40,7 +40,9 @@
                 $response = file_get_contents($apiUrl);
                 $productos = json_decode($response, true);
                 foreach ($productos as $producto): ?>
-                    <div class="producto-card" data-id="<?php echo $producto['id']; ?>">
+                    <div class="producto-card" 
+                         data-id="<?php echo $producto['id']; ?>" 
+                         data-image="<?php echo htmlspecialchars(obtenerImagenProducto($producto)); ?>">
                         <div class="producto-imagen-container">
                             <img src="<?php echo htmlspecialchars(obtenerImagenProducto($producto)); ?>"
                                  alt="<?php echo htmlspecialchars($producto['name']); ?>"
@@ -51,13 +53,12 @@
                             <p class="producto-description"><?php echo htmlspecialchars($producto['description']); ?></p>
                             <div class="precio-favorito">
                                 <span class="producto-precio"><?php echo htmlspecialchars($producto['price']); ?> €</span>
-                                <span class="favorite-icon">
-                                    <!-- icono corazón -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
-                                    </svg>
+                                <span class="favorite-icon" data-id="<?php echo $producto['id']; ?>">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                      class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                                  </svg>
                                 </span>
                             </div>
                             <button class="agregarAlCarrito btn btn-primary">
@@ -109,13 +110,14 @@
     });
     </script>
     <script>
-      window.productosAPI = <?php
-        $productosJS = array_map(function($p) {
-          $p['image'] = $p['url_image'] ?? '';
+    window.productosAPI = <?php
+      // Mapea cada producto para añadir el campo image usando tu función PHP
+      $productosConImagen = array_map(function($p) {
+          $p['image'] = obtenerImagenProducto($p);
           return $p;
-        }, $productos);
-        echo json_encode($productosJS);
-      ?>;
+      }, $productos);
+      echo json_encode($productosConImagen, JSON_UNESCAPED_UNICODE);
+    ?>;
     </script>
 
 
