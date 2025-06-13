@@ -1,16 +1,4 @@
 <?php
-// filepath: /home/ivan/Escritorio/grupo_7_petopia/frontend/detalle.php
-$id = $_GET['id'] ?? null;
-$producto = null;
-
-if ($id) {
-    $apiUrl = "http://backend:5000/api/v1/products/$id";
-    $response = @file_get_contents($apiUrl);
-    if ($response !== false) {
-        $producto = json_decode($response, true);
-    }
-}
-
 function obtenerImagenProducto($producto) {
     switch ($producto['id']) {
         case 1: return "https://famouspets.com.cy/1191-medium_default/royal-canin-medium-sterilized-adult-dry-dog-food.jpg";
@@ -26,6 +14,17 @@ function obtenerImagenProducto($producto) {
         case 11: return "https://cdn.reddingo.es/media/mf_webp/jpg/media/catalog/product/cache/c242852b69642886958102ebeb0e83fa/DH-PH-GY.webp";
         case 12: return "https://m.media-amazon.com/images/I/71hdYWVr9tL._AC_UF1000,1000_QL80_.jpg";
         default: return "/assets/img/default.jpg";
+    }
+}
+
+$id = $_GET['id'] ?? null;
+$producto = null;
+
+if ($id) {
+    $apiUrl = "http://backend:5000/api/v1/products/$id";
+    $response = @file_get_contents($apiUrl);
+    if ($response !== false) {
+        $producto = json_decode($response, true);
     }
 }
 ?>

@@ -42,7 +42,9 @@
                 foreach ($productos as $producto): ?>
                     <div class="producto-card" data-id="<?php echo $producto['id']; ?>">
                         <div class="producto-imagen-container">
-                            <img src="<?php echo htmlspecialchars(obtenerImagenProducto($producto)); ?>" alt="<?php echo htmlspecialchars($producto['name']); ?>" class="producto-imagen" />
+                            <img src="<?php echo htmlspecialchars(obtenerImagenProducto($producto)); ?>"
+                                 alt="<?php echo htmlspecialchars($producto['name']); ?>"
+                                 class="producto-imagen" />
                         </div>
                         <div class="producto-details">
                             <h3 class="producto-marca"><?php echo htmlspecialchars($producto['name']); ?></h3>
@@ -107,29 +109,38 @@
     });
     </script>
     <script>
-      window.productosAPI = <?php echo json_encode($productos); ?>;
+      window.productosAPI = <?php
+        $productosJS = array_map(function($p) {
+          $p['image'] = $p['url_image'] ?? '';
+          return $p;
+        }, $productos);
+        echo json_encode($productosJS);
+      ?>;
     </script>
 
-    <?php
-    function obtenerImagenProducto($producto) {
-        switch ($producto['id']) {
-            case 1: return "https://famouspets.com.cy/1191-medium_default/royal-canin-medium-sterilized-adult-dry-dog-food.jpg";
-            case 2: return "https://m.media-amazon.com/images/I/61E-7oEzeoS.jpg";
-            case 3: return "https://aller-petfood.com/wp-content/uploads/2017/09/ALL_Puppies.jpg";
-            case 4: return "https://shop.smucker.com/cdn/shop/files/wcwst1hk2xnhx9tonxm9.jpg?v=1702052831&width=1920";
-            case 5: return "https://m.media-amazon.com/images/I/612z2jEDFTL.jpg";
-            case 6: return "https://www.pawsomecouture.com/cdn/shop/products/magicalmice.jpg?v=1599542929";
-            case 7: return "https://m.media-amazon.com/images/I/61hJF6WtWTL.jpg";
-            case 8: return "https://catfriendly.com/wp-content/uploads/2021/07/scratching-post.jpg";
-            case 9: return "https://assets.petco.com/petco/image/upload/c_pad,dpr_1.0,f_auto,q_auto,h_636,w_636/c_pad,h_636,w_636/1056794-left-2";
-            case 10: return "https://m.media-amazon.com/images/I/615Ccf+wziL.jpg";
-            case 11: return "https://cdn.reddingo.es/media/mf_webp/jpg/media/catalog/product/cache/c242852b69642886958102ebeb0e83fa/DH-PH-GY.webp";
-            case 12: return "https://m.media-amazon.com/images/I/71hdYWVr9tL._AC_UF1000,1000_QL80_.jpg";
-            default: return "/assets/img/default.jpg";
-        }
-    }
-    ?>
+
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
+
+<?php
+function obtenerImagenProducto($producto) {
+    switch ($producto['id']) {
+        case 1: return "https://famouspets.com.cy/1191-medium_default/royal-canin-medium-sterilized-adult-dry-dog-food.jpg";
+        case 2: return "https://m.media-amazon.com/images/I/61E-7oEzeoS.jpg";
+        case 3: return "https://aller-petfood.com/wp-content/uploads/2017/09/ALL_Puppies.jpg";
+        case 4: return "https://shop.smucker.com/cdn/shop/files/wcwst1hk2xnhx9tonxm9.jpg?v=1702052831&width=1920";
+        case 5: return "https://m.media-amazon.com/images/I/612z2jEDFTL.jpg";
+        case 6: return "https://www.pawsomecouture.com/cdn/shop/products/magicalmice.jpg?v=1599542929";
+        case 7: return "https://m.media-amazon.com/images/I/61hJF6WtWTL.jpg";
+        case 8: return "https://catfriendly.com/wp-content/uploads/2021/07/scratching-post.jpg";
+        case 9: return "https://assets.petco.com/petco/image/upload/c_pad,dpr_1.0,f_auto,q_auto,h_636,w_636/c_pad,h_636,w_636/1056794-left-2";
+        case 10: return "https://m.media-amazon.com/images/I/615Ccf+wziL.jpg";
+        case 11: return "https://cdn.reddingo.es/media/mf_webp/jpg/media/catalog/product/cache/c242852b69642886958102ebeb0e83fa/DH-PH-GY.webp";
+        case 12: return "https://m.media-amazon.com/images/I/71hdYWVr9tL._AC_UF1000,1000_QL80_.jpg";
+        default: return "/assets/img/default.jpg";
+    }
+}
+?>

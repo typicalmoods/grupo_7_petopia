@@ -315,3 +315,4 @@ async function registrarUsuario(datosUsuario) {
     console.error("Error:", error);
   }
 }
+
