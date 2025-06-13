@@ -35,16 +35,13 @@ def create_carts():
         return jsonify({"message": "Unauthorized"}), HTTPStatus.UNAUTHORIZED
 
     request_data = request.get_json()
-    user_id = request_data.get('user_id')
+    user_id = session["user_id"]
     products = request_data.get('products')
     
     logging.debug(f"Creating carts for user_id: {user_id} with products: {products}")
 
-    if not user_id or not products:
+    if not products:
         return jsonify({"error": "Missing required fields"}), HTTPStatus.BAD_REQUEST
-
-    if user_id != session["user_id"]:
-        return jsonify({"message": "Forbidden: You can only create carts for your own user"}), HTTPStatus.FORBIDDEN
 
     created_carts = []
     for product in products:
