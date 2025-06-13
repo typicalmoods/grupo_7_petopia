@@ -6,6 +6,7 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(510))
+    url_image = db.Column(db.String(255))
     animal_species = db.Column(db.String(50))
     brand = db.Column(db.String(50), nullable=False)
     stock = db.Column(db.Integer, nullable=False)
@@ -18,6 +19,7 @@ class Product(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
+            "url_image": self.url_image,
             "animal_species": self.animal_species,
             "brand": self.brand,
             "stock": self.stock,
