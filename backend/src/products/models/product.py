@@ -19,7 +19,7 @@ class Product(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "url_image": self.url_image,
+            "url_image": self.url_image,  # <--- ¡Esto es imprescindible!
             "animal_species": self.animal_species,
             "brand": self.brand,
             "stock": self.stock,

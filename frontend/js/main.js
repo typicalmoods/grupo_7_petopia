@@ -23,7 +23,7 @@ function mostrarProductos(lista) {
   productContainer.innerHTML = "";
 
   lista.forEach((producto) => {
-    const imageUrl = producto.image || producto.url_image || '/assets/img/default.jpg';
+    const imageUrl = producto.url_image || producto.image || '/assets/img/default.jpg';
     const card = document.createElement("div");
     card.className = "producto-card";
     card.style.cursor = "pointer";
@@ -51,10 +51,8 @@ function mostrarProductos(lista) {
       </div>
     `;
 
-    // --- Añade este bloque para abrir el detalle ---
     card.addEventListener("click", function(e) {
-      // Evita que el click en el botón "Añadir al carrito" abra el detalle
-      if (e.target.closest(".agregarAlCarrito")) return;
+      if (e.target.closest(".agregarAlCarrito") || e.target.closest(".favorite-icon")) return;
       window.location.href = `detalle.php?id=${producto.id}`;
     });
 
@@ -74,7 +72,7 @@ function actualizarContadorCarrito() {
 // ----------------- Favoritos -----------------
 function toggleFavorito(producto) {
   const card = document.querySelector(`.producto-card[data-id="${producto.id}"]`);
-  const image = card ? card.dataset.image : (producto.image || producto.url_image || '/assets/img/default.jpg');
+  const image = card ? card.dataset.image : (producto.url_image || producto.image || '/assets/img/default.jpg');
   const existente = favoritos.find(item => item.id == producto.id);
   if (existente) {
     favoritos = favoritos.filter(item => item.id != producto.id);
@@ -109,7 +107,7 @@ function cargarFavoritosModal() {
 
       item.innerHTML = `
         <div class="d-flex align-items-center">
-          <img src="${producto.image}" alt="${producto.name}" class="me-3 rounded" style="width: 50px; height: 50px; object-fit: cover;">
+          <img src="${producto.url_image || producto.image || '/assets/img/default.jpg'}" alt="${producto.name}" class="me-3 rounded" style="width: 50px; height: 50px; object-fit: cover;">
           <div>
             <h6 class="mb-0">${producto.name}</h6>
             <small class="text-muted">${producto.description}</small>
@@ -175,7 +173,7 @@ function mostrarSugerencias() {
     const item = document.createElement("div");
     item.className = "sugerencia-item";
     item.innerHTML = `
-      <img src="${producto.image}" alt="${producto.name}" style="width:32px;height:32px;object-fit:cover;margin-right:8px;">
+      <img src="${producto.url_image || '/assets/img/default.jpg'}" alt="${producto.name}" style="width:32px;height:32px;object-fit:cover;margin-right:8px;">
       <span>${producto.name}</span>
     `;
     item.style.cursor = "pointer";
@@ -213,21 +211,42 @@ function iniciarSlider() {
 // ----------------- Datos de las secciones -----------------
 const secciones = [
   {
-    imagenAnimal: "./assets/img/dog.webp",
     titulo: "Perros",
+    imagenAnimal: "./assets/img/dog.webp",
+    filtro: "Perro",
+    tipo: "animal"
   },
   {
-    imagenAnimal: "./assets/img/cat.webp",
     titulo: "Gatos",
+    imagenAnimal: "./assets/img/cat.webp",
+    filtro: "Gato",
+    tipo: "animal"
   },
   {
-    imagenAnimal: "./assets/img/bird.webp",
     titulo: "Pájaros",
+    imagenAnimal: "./assets/img/bird.webp",
+    filtro: "Pájaro",
+    tipo: "animal"
   },
   {
-    imagenAnimal: "./assets/img/otrosAnimales.webp",
     titulo: "Otros Animales",
+    imagenAnimal: "./assets/img/otrosAnimales.webp", // Cambia la ruta cuando tengas la imagen
+    filtro: "otrosAnimales",
+    tipo: "animal"
   },
+  {
+    titulo: "Juguetes",
+    imagenAnimal: "./assets/img/juguetes.png", // Cambia la ruta cuando tengas la imagen
+    filtro: "Toys",
+    tipo: "categoria"
+  },
+   {
+    titulo: "Ofertas",
+    imagenAnimal: "./assets/img/categoriaOfertas.png",
+    ruta: "ofertas.php" // <-- Añade esta línea
+  }
+
+  
 ];
 
 // ----------------- Mostrar secciones -----------------
@@ -240,11 +259,13 @@ function mostrarSecciones() {
   secciones.forEach((seccion) => {
     const card = document.createElement("div");
     card.className = "seccion-card";
+    // Usa la misma lógica de href que en el nav
+    const href = seccion.ruta ? seccion.ruta : `index.php?filtro=${encodeURIComponent(seccion.filtro)}`;
 
     card.innerHTML = `
-      <a class="seccion-imagen-container">
+      <a class="seccion-imagen-container" href="${href}">
         <img src="${seccion.imagenAnimal}" alt="${seccion.titulo}" class="seccion-imagen" />
-      <h4 class="seccion-titulo">${seccion.titulo}</h4>
+        <h4 class="seccion-titulo">${seccion.titulo}</h4>
       </a>
     `;
 
@@ -260,17 +281,11 @@ function mostrarSeccionesNav() {
   secciones.forEach((seccion) => {
     const li = document.createElement("li");
     li.className = "nav-item";
-
-    // Define el filtro según el título
-    let filtro = "";
-    if (seccion.titulo === "Perros") filtro = "Dog";
-    else if (seccion.titulo === "Gatos") filtro = "Cat";
-    else if (seccion.titulo === "Pájaros") filtro = "Bird";
-    else if (seccion.titulo === "Otros Animales") filtro = "Otros";
-
+    // Si la sección tiene 'ruta', usa esa ruta, si no, usa el filtro
+    const href = seccion.ruta ? seccion.ruta : `index.php?filtro=${encodeURIComponent(seccion.filtro)}`;
     li.innerHTML = `
-      <a href="index.php?filtro=${filtro}" class="nav-link d-flex align-items-center">
-        <img src="${seccion.imagenAnimal}" alt="${seccion.titulo}" style="max-width: 60px;object-fit:cover;margin-right:8px;">
+      <a href="${href}" class="nav-link d-flex align-items-center">
+        <img src="${seccion.imagenAnimal}" alt="${seccion.titulo}" style="max-width: 40px;object-fit:cover;margin-right:8px;">
         <span>${seccion.titulo}</span>
       </a>
     `;
@@ -289,10 +304,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const filtro = getParam('filtro');
   if (filtro) {
     let productosFiltrados = [];
-    if (filtro === "Toys" || filtro === "Food" || filtro === "Accessories") {
+    if (["Toys", "Food", "Accessories"].includes(filtro)) {
       productosFiltrados = window.productosAPI.filter(p => p.category === filtro);
-    } else if (filtro === "Dog" || filtro === "Cat") {
+    } else if (["Perro", "Gato", "Pájaro"].includes(filtro)) {
       productosFiltrados = window.productosAPI.filter(p => p.animal_species === filtro);
+    } else if (filtro === "otrosAnimales") {
+      // Incluye todos los productos de especies "Hámster", "Reptil", "Cobaya", "Roedor"
+      const especiesOtros = ["Hámster", "Reptil", "Cobaya", "Roedor"];
+      productosFiltrados = window.productosAPI.filter(p => especiesOtros.includes(p.animal_species));
     }
     mostrarProductos(productosFiltrados);
 
@@ -364,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // Favoritos con Corazones
+  // Favoritos with Hearts
   function pintarCorazones() {
     const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
     document.querySelectorAll('.favorite-icon').forEach(icon => {

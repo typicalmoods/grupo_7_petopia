@@ -1,21 +1,4 @@
 <?php
-function obtenerImagenProducto($producto) {
-    switch ($producto['id']) {
-        case 1: return "https://famouspets.com.cy/1191-medium_default/royal-canin-medium-sterilized-adult-dry-dog-food.jpg";
-        case 2: return "https://m.media-amazon.com/images/I/61E-7oEzeoS.jpg";
-        case 3: return "https://aller-petfood.com/wp-content/uploads/2017/09/ALL_Puppies.jpg";
-        case 4: return "https://shop.smucker.com/cdn/shop/files/wcwst1hk2xnhx9tonxm9.jpg?v=1702052831&width=1920";
-        case 5: return "https://m.media-amazon.com/images/I/612z2jEDFTL.jpg";
-        case 6: return "https://www.pawsomecouture.com/cdn/shop/products/magicalmice.jpg?v=1599542929";
-        case 7: return "https://m.media-amazon.com/images/I/61hJF6WtWTL.jpg";
-        case 8: return "https://catfriendly.com/wp-content/uploads/2021/07/scratching-post.jpg";
-        case 9: return "https://assets.petco.com/petco/image/upload/c_pad,dpr_1.0,f_auto,q_auto,h_636,w_636/c_pad,h_636,w_636/1056794-left-2";
-        case 10: return "https://m.media-amazon.com/images/I/615Ccf+wziL.jpg";
-        case 11: return "https://cdn.reddingo.es/media/mf_webp/jpg/media/catalog/product/cache/c242852b69642886958102ebeb0e83fa/DH-PH-GY.webp";
-        case 12: return "https://m.media-amazon.com/images/I/71hdYWVr9tL._AC_UF1000,1000_QL80_.jpg";
-        default: return "/assets/img/default.jpg";
-    }
-}
 
 $id = $_GET['id'] ?? null;
 $producto = null;
@@ -47,7 +30,7 @@ if ($id) {
         <div class="container py-4">
           <div class="row align-items-center bg-white rounded shadow p-4">
             <div class="col-md-5 text-center mb-3 mb-md-0">
-              <img src="<?php echo htmlspecialchars(obtenerImagenProducto($producto)); ?>" 
+              <img src="<?php echo htmlspecialchars($producto['url_image'] ?? '/assets/img/default.jpg'); ?>" 
                    alt="<?php echo htmlspecialchars($producto['name'] ?? 'Producto'); ?>" 
                    class="img-fluid rounded" 
                    style="max-height:340px;object-fit:cover;background:#f8f8f8;">
@@ -107,7 +90,7 @@ if ($id) {
       const name = "<?php echo htmlspecialchars($producto['name']); ?>";
       const description = "<?php echo htmlspecialchars($producto['description']); ?>";
       const price = "<?php echo htmlspecialchars($producto['price']); ?>";
-      const image = "<?php echo htmlspecialchars(obtenerImagenProducto($producto)); ?>";
+      const image = "<?php echo htmlspecialchars($producto['url_image'] ?? '/assets/img/default.jpg'); ?>";
 
       let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
       const existente = carrito.find(p => p.id == id);

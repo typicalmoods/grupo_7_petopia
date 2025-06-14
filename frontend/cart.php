@@ -123,7 +123,7 @@
         item.classList.add("list-group-item", "d-flex", "align-items-center");
 
         item.innerHTML = `
-          <img src="${producto.image}" alt="${producto.description}" class="me-3 rounded" style="width:30%;">
+          <img src="${producto.url_image || producto.image || '/assets/img/default.jpg'}" alt="${producto.description}" class="me-3 rounded" style="width:30%;">
           <div class="flex-grow-1">
             <h5 class="mb-1">${producto.name}</h5>
             <p class="mb-1">${producto.description}</p>
