@@ -169,9 +169,26 @@ header {
 .carrito-container:hover #mini-carrito {
   display: block !important;
 }
+/* boton de cerrar sesión */
+.cerrar-sesion{
+  background-color: #e63946;
+  color: white !important;
+  padding: 4px 8px;
+  font-size: 0.75rem !important;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+.cerrar-sesion:hover {
+  background-color: #d62839;
+    color: white !important;
+
+  
+  /* Cambia el color al pasar el mouse */
+}
 
 /* Estilos de la navegación */
-/* Navbar */
 .navbar {
   background-color: #fff;
   box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.1);
@@ -787,4 +804,12 @@ section h3 {
   #secciones-container {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+.user-cart .dropdown-toggle {
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  color: inherit !important;
+  box-shadow: none !important;
 }

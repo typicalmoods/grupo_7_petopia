@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $id = $_GET['id'] ?? null;
 $producto = null;
 
@@ -120,5 +120,6 @@ if ($id) {
     });
   });
   </script>
+  <script src="js/main.js"></script>
 </body>
 </html>

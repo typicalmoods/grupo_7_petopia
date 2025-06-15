@@ -1,3 +1,4 @@
+<?php include 'includes/header.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,7 +11,7 @@
   <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
-  <?php include 'includes/header.php'; ?>
+  
 
   <main class="container my-5">
     <div class="row">

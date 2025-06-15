@@ -9,32 +9,33 @@
 
       <div class="modal-body">
         <div class="text-center fs-3 fw-bold mb-3">Iniciar Sesión</div>
+        <div id="login-mensaje"></div>
 
-        <div class="input-group mb-3">
+        <!-- Formulario de Login -->
+        <form id="form-login" method="POST" action="login.php">
+          <div class="input-group mb-3">
+              <span class="input-group-text bg-info text-white">
+                <i class="bi bi-envelope-fill"></i>
+              </span>
+              <input type="text" class="form-control bg-light" placeholder="Usuario o correo electrónico" name="username" required>
+            </div>
+
+          <div class="input-group mb-3">
             <span class="input-group-text bg-info text-white">
-              <i class="bi bi-envelope-fill"></i>
+              <i class="bi bi-lock-fill"></i>
             </span>
-            <input type="email" class="form-control bg-light" placeholder="Correo electrónico" required>
+<input type="password" class="form-control bg-light" placeholder="Contraseña" name="password" required>
           </div>
 
-        <div class="input-group mb-3">
-          <span class="input-group-text bg-info text-white">
-            <i class="bi bi-lock-fill"></i>
-          </span>
-          <input type="password" class="form-control bg-light" placeholder="Contraseña">
-        </div>
-
-        <div class="d-flex justify-content-between mb-3">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="rememberMe">
-            <label class="form-check-label" for="rememberMe">Recuérdame</label>
+          <div class="d-flex justify-content-between mb-3">
+            
+            <a href="#" class="text-info fst-italic">¿Olvidaste tu contraseña?</a>
           </div>
-          <a href="#" class="text-info fst-italic">¿Olvidaste tu contraseña?</a>
-        </div>
 
-        <button class="btn btn-info w-100 text-white fw-semibold mb-2">
-          Iniciar sesión
-        </button>
+          <button type="submit" class="btn btn-info w-100 text-white fw-semibold mb-2">
+            Iniciar sesión
+          </button>
+        </form>
 
         <div class="text-center">
           <small>¿No tienes cuenta? 
@@ -46,13 +47,9 @@
         </div>
 
         <div class="border-bottom my-3 text-center">
-          <span class="bg-white px-2">o</span>
         </div>
 
-        <button class="btn btn-outline-secondary w-100 d-flex justify-content-center align-items-center gap-2">
-          <i class="bi bi-google"></i>
-          Continuar con Google
-        </button>
+        
       </div>
     </div>
   </div>
@@ -69,7 +66,9 @@
 
       <div class="modal-body">
         <div class="text-center fs-3 fw-bold mb-3">Regístrate</div>
-        <form>
+        <div id="register-mensaje"></div>
+        <!-- Formulario de Registro -->
+        <form method="POST" action="register.php">
           <div class="input-group mb-3">
             <span class="input-group-text bg-info text-white">
               <i class="bi bi-person-fill"></i>
@@ -99,6 +98,24 @@
               <i class="bi bi-lock-fill"></i>
             </span>
             <input type="password" class="form-control bg-light" placeholder="Confirmar contraseña" required>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text bg-info text-white">
+              <i class="bi bi-telephone-fill"></i>
+            </span>
+            <input type="text" class="form-control bg-light" placeholder="Teléfono" name="phone" required>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text bg-info text-white">
+              <i class="bi bi-geo-alt-fill"></i>
+            </span>
+            <input type="text" class="form-control bg-light" placeholder="Dirección" name="address" required>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text bg-info text-white">
+              <i class="bi bi-calendar-date"></i>
+            </span>
+            <input type="date" class="form-control bg-light" placeholder="Fecha de nacimiento" name="birthdate" required>
           </div>
           <button type="submit" class="btn btn-info w-100 text-white fw-semibold mb-2">
             Registrarse
@@ -134,18 +151,9 @@
   </div>
 </div>
 
-<script>
-  document.querySelector("#registerModal form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const datosUsuario = {
-      username: e.target.querySelector("input[name='username']").value,
-      password: e.target.querySelector("input[name='password']").value,
-      email: e.target.querySelector("input[name='email']").value,
-    };
-    registrarUsuario(datosUsuario);
-  });
 
-  // Suponiendo que tienes una función para cargar los favoritos
+<script>
+  // Evento modal de favoritos
   function cargarFavoritos(favoritos) {
     const favoritesList = document.getElementById("favoritesList");
     const noFavorites = document.getElementById("noFavorites");
@@ -178,4 +186,121 @@
       });
     }
   }
+
+  document.addEventListener("DOMContentLoaded", function() {
+  const formLogin = document.getElementById("form-login");
+  const loginMensaje = document.getElementById("login-mensaje");
+
+  if (formLogin) {
+    formLogin.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      loginMensaje.innerHTML = "";
+
+      const datos = {
+        username: formLogin.username.value,
+        password: formLogin.password.value
+      };
+
+      try {
+        const response = await fetch("login.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(datos)
+        });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          loginMensaje.innerHTML = `
+            <div class="alert alert-success text-center">
+              <i class="bi bi-check-circle-fill" style="font-size:2rem;color:#198754;"></i><br>
+              ¡Inicio de sesión correcto!<br>
+              Redirigiendo a la página principal...
+            </div>
+          `;
+          setTimeout(() => {
+            window.location.href = "index.php";
+          }, 1500);
+        } else {
+          loginMensaje.innerHTML = `
+            <div class="alert alert-danger text-center">
+              ${data.error || "Usuario o contraseña incorrectos."}
+            </div>
+          `;
+        }
+      } catch (err) {
+        loginMensaje.innerHTML = `
+          <div class="alert alert-danger text-center">
+            Error de conexión con el servidor.
+          </div>
+        `;
+      }
+    });
+  }
+
+  // Registro con mensaje en el modal
+  const formRegister = document.querySelector("#registerModal form");
+  const registerMensaje = document.getElementById("register-mensaje");
+
+  if (formRegister) {
+    formRegister.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      registerMensaje.innerHTML = ""; // Limpia mensajes anteriores
+
+      // Recoge los datos del formulario
+      const formData = new FormData(formRegister);
+      const datos = {};
+      formData.forEach((value, key) => {
+        datos[key] = value;
+      });
+
+      // Validación simple de contraseñas iguales
+      const passwordInputs = formRegister.querySelectorAll('input[type="password"]');
+      if (passwordInputs.length === 2 && passwordInputs[0].value !== passwordInputs[1].value) {
+        registerMensaje.innerHTML = `
+          <div class="alert alert-danger text-center">
+            Las contraseñas no coinciden.
+          </div>
+        `;
+        return;
+      }
+
+      try {
+        const response = await fetch("register.php", {
+          method: "POST",
+          body: formData
+        });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          registerMensaje.innerHTML = `
+            <div class="alert alert-success text-center">
+              <i class="bi bi-check-circle-fill" style="font-size:2rem;color:#198754;"></i><br>
+              ¡Registro exitoso!<br>
+              Ahora puedes iniciar sesión.
+            </div>
+          `;
+          setTimeout(() => {
+            // Cierra el modal de registro y abre el de login
+            const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+            registerModal.hide();
+            document.getElementById("register-mensaje").innerHTML = "";
+            new bootstrap.Modal(document.getElementById('loginModal')).show();
+          }, 1800);
+        } else {
+          registerMensaje.innerHTML = `
+            <div class="alert alert-danger text-center">
+              ${data.error || "Error en el registro."}
+            </div>
+          `;
+        }
+      } catch (err) {
+        registerMensaje.innerHTML = `
+          <div class="alert alert-danger text-center">
+            Error de conexión con el servidor.
+          </div>
+        `;
+      }
+    });
+  }
+});
 </script>
