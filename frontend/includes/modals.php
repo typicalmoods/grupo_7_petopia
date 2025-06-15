@@ -17,7 +17,7 @@
               <span class="input-group-text bg-info text-white">
                 <i class="bi bi-envelope-fill"></i>
               </span>
-              <input type="text" class="form-control bg-light" placeholder="Usuario o correo electrónico" name="username" required>
+              <input type="text" class="form-control bg-light" placeholder="Usuario" name="username" required>
             </div>
 
           <div class="input-group mb-3">
@@ -73,14 +73,8 @@
             <span class="input-group-text bg-info text-white">
               <i class="bi bi-person-fill"></i>
             </span>
-            <input type="text" class="form-control bg-light" placeholder="Nombre" name="username" required>
+            <input type="text" class="form-control bg-light" placeholder="Nombre de usuario" name="username" required>
           </div>
-            <div class="input-group mb-3">
-          <span class="input-group-text bg-info text-white">
-            <i class="bi bi-person-fill"></i>
-          </span>
-          <input type="text" class="form-control bg-light" placeholder="Apellidos" name="lastname">
-        </div>
           <div class="input-group mb-3">
             <span class="input-group-text bg-info text-white">
               <i class="bi bi-envelope-fill"></i>
