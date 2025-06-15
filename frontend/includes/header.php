@@ -60,59 +60,17 @@
         </div>
 
 
-<!-- Navbar adaptado -->
-<nav class="navbar">
-  <div class="navbar-container">
-    <!-- Menú de navegación -->
-    <ul class="nav-menu"  id="nav-secciones">
-      <!-- 
-      <li class="nav-item">
-        <a href="index.php?filtro=Dog" class="nav-link has-dropdown">Perros</a>
-      </li>
+<!-- Botón hamburguesa -->
+<button id="menu-hamburguesa" class="menu-hamburguesa" aria-label="Abrir menú">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
-   
-      <li class="nav-item">
-        <a href="index.php?filtro=Cat" class="nav-link has-dropdown">Gatos</a>
-      <ul class="dropdown-menu dropdown-rectangle">
-          <div class="dropdown-content">
-           Columnas de Comida y Accesorios 
-            <div class="dropdown-columns">
-              <li class="dropdown-column">
-                <h4>Comida</h4>
-                <a href="#">Pienso</a>
-                <a href="#">Comida húmeda</a>
-              </li>
-              <li class="dropdown-column">
-                <h4>Accesorios</h4>
-                <a href="#">Rascadores</a>
-                <a href="#">Areneros</a>
-                <a href="#">Juguetes</a>
-              </li>
-            </div>
-            Imagen de Gato
-            <div class="dropdown-image">
-              <img src="./assets/img/gato.webp" alt="Imagen de Gato" class="img-fluid">
-            </div>
-          </div>
-        </ul>
-      </li>
-
-      
-      <li class="nav-item">
-        <a href="#" id="ver-pajaros" class="nav-link has-dropdown">Pájaros</a>
-      </li>
-
-      <li class="nav-item">
-        <a href="index.php?filtro=Toys" class="nav-link">Juguetes</a>
-      </li>
-
-       Ofertas
-      <li class="nav-item">
-        <a href="ofertas.php" class="nav-link">Ofertas</a>
-      </li> -->
-    </ul>
-  </div>
-</nav>
+<!-- Menú de navegación -->
+<ul class="nav-menu" id="nav-secciones">
+  <!-- Aquí van los <li> de las secciones -->
+</ul>
 
 
     </header>
