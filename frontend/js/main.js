@@ -465,5 +465,20 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   }
+
+  // Contact Form Submission
+  const formContacto = document.getElementById("form-contacto");
+  const mensajeContacto = document.getElementById("mensaje-contacto");
+  if (formContacto) {
+    formContacto.addEventListener("submit", function(e) {
+      e.preventDefault();
+      mensajeContacto.innerHTML = `
+        <div class="alert alert-success text-center">
+          ¡Tu consulta ha sido enviada!<br>Gracias por contactarnos.
+        </div>
+      `;
+      formContacto.reset();
+    });
+  }
 });
 

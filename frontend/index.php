@@ -80,7 +80,30 @@ include 'includes/header.php';
             <h3>Categorías destacadas</h3>
             <div id="secciones-container"></div>
         </section>
-    </main>
+
+        <!-- Sección de Contacto -->
+        <section class="contacto contenedor my-5" style="background-color: #f8f8f8; padding: 20px; border-radius: 8px;">
+            <h3>¿Tienes alguna consulta? Contáctanos</h3>
+            <form id="form-contacto" class="row g-3" method="POST" action="contacto.php">
+                <div class="col-md-6">
+                    <label for="nombreContacto" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombreContacto" name="nombre" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="emailContacto" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="emailContacto" name="email" required>
+                </div>
+                <div class="col-12">
+                    <label for="mensajeContacto" class="form-label">Mensaje</label>
+                    <textarea class="form-control" id="mensajeContacto" name="mensaje" rows="4" required></textarea>
+                </div>
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-info text-white">Enviar consulta</button>
+                </div>
+            </form>
+            <div id="mensaje-contacto" class="mt-3"></div>
+        </section>
+        <!-- Fin sección de contacto -->
 
     <?php include 'includes/footer.php'; ?>
     <?php include 'includes/modals.php'; ?>

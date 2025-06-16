@@ -59,7 +59,14 @@
             </div>
 
             <div class="mt-4">
-              <a href="pago.php" class="btn btn-primary w-100">Acceder al pago</a>
+              <?php if (isset($_SESSION["usuario"])): ?>
+                  <a href="pago.php" class="btn btn-primary w-100">Acceder al pago</a>
+              <?php else: ?>
+                  <button class="btn btn-primary w-100" disabled>Acceder al pago</button>
+                  <div class="alert alert-warning mt-2 text-center">
+                      Debes iniciar sesión para continuar con el pago.
+                  </div>
+              <?php endif; ?>
             </div>
 
             <div class="text-center mt-3">
@@ -94,7 +101,6 @@
 
   <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/main.js"></script>
   <script>
     // Función para cargar el carrito desde localStorage
     function cargarCarrito() {
