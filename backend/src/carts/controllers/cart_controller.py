@@ -66,3 +66,21 @@ def create_carts():
         created_carts.append(new_cart.to_dict())
 
     return jsonify(created_carts), HTTPStatus.CREATED
+
+
+@cart_bp.route('/<int:cart_id>/cancel', methods=['POST'])
+def cancel_cart(cart_id):
+    if "user_id" not in session:
+        return jsonify({"message": "Unauthorized"}), HTTPStatus.UNAUTHORIZED
+
+    cart = Cart.get_by_id(cart_id)
+    if not cart:
+        return jsonify({"error": "Cart not found"}), HTTPStatus.NOT_FOUND
+
+    if cart.user_id != session["user_id"]:
+        return jsonify({"message": "Forbidden: You can only cancel your own cart"}), HTTPStatus.FORBIDDEN
+
+    updated_cart = Cart.update_status(cart, 'CANCELLED')
+    if updated_cart:
+        return jsonify(updated_cart.to_dict()), HTTPStatus.OK
+    return jsonify({"error": "Failed to cancel cart"}), HTTPStatus.INTERNAL_SERVER_ERROR

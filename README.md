@@ -236,6 +236,19 @@ Petopia is a web application that provides a backend API built with Flask and a 
       }
     ]
     ```
+- Cancel cart: `POST /api/v1/carts/{id}/cancel`
+  - Description: Cancels a cart that was purchased by user who is identified by the session cookie.
+  - Response:
+    ```json
+    {
+      "created_at": "2025-06-16T17:49:17",
+      "id": 43,
+      "product_id": 109,
+      "quantity": 4,
+      "status": "CANCELLED",
+      "user_id": 2
+    }
+    ```
 
 ### Health Check
 - Health: `GET /health`
