@@ -41,6 +41,7 @@
                 <button class="btn btn-outline-secondary">Aplicar</button>
               </div>
             </div>
+            <div id="mensaje-cupon" class="mt-2"></div>
 
             <hr />
 
@@ -57,6 +58,7 @@
               <span>Total</span>
               <strong id="total">3,99€</strong>
             </div>
+            <div id="descuento-cupon"></div>
 
             <div class="mt-4">
               <?php if (isset($_SESSION["usuario"])): ?>
@@ -102,6 +104,15 @@
   <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Definición de cupones válidos y sus descuentos
+    const cupones = {
+      "DESCUENTO10": { tipo: "porcentaje", valor: 10 },      // 10% de descuento
+      "ENVIOGRATIS": { tipo: "envio", valor: 3.99 },         // Envío gratis (3.99€)
+      "5OFF":        { tipo: "porcentaje", valor: 50 }        // 50% de descuento
+    };
+
+    let cuponAplicado = null;
+
     // Función para cargar el carrito desde localStorage
     function cargarCarrito() {
       const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -114,6 +125,7 @@
 
       carritoLista.innerHTML = ""; // Limpiar la lista del carrito
       let subtotal = 0;
+      let descuento = 0;
 
       if (carrito.length === 0) {
         carritoVacio.style.display = "block";
@@ -151,17 +163,40 @@
         carritoLista.appendChild(item);
       });
 
+      // Aplicar cupón si existe
+      if (cuponAplicado && cupones[cuponAplicado]) {
+        const cup = cupones[cuponAplicado];
+        if (cup.tipo === "porcentaje") {
+          descuento = subtotal * (cup.valor / 100);
+        } else if (cup.tipo === "envio") {
+          envio = 0;
+        }
+      }
+
       // Actualizar el coste de envío si el subtotal supera los 30€
       if (subtotal >= 30) {
         envio = 0;
         envioElement.textContent = "Gratis";
       } else {
-        envioElement.textContent = `${envio.toFixed(2)}€`;
+        envioElement.textContent = envio === 0 ? "Gratis" : `${envio.toFixed(2)}€`;
+      }
+
+      // Mostrar descuento si hay
+      const descuentoDiv = document.getElementById("descuento-cupon");
+      if (descuento > 0) {
+        descuentoDiv.innerHTML = `
+          <div class="d-flex justify-content-between fs-5 text-success">
+            <span>Descuento cupón</span>
+            <strong>- ${descuento.toFixed(2)}€</strong>
+          </div>
+        `;
+      } else {
+        descuentoDiv.innerHTML = "";
       }
 
       // Actualizar subtotal y total
       subtotalElement.textContent = `${subtotal.toFixed(2)}€`;
-      totalElement.textContent = `${(subtotal + envio).toFixed(2)}€`;
+      totalElement.textContent = `${(subtotal - descuento + envio).toFixed(2)}€`;
 
       // Agregar eventos a los selectores de cantidad y botones de eliminar
       document.querySelectorAll(".quantity-select").forEach(select => {
@@ -189,8 +224,36 @@
       cargarCarrito();
     }
 
-    // Cargar el carrito al cargar la página
-    document.addEventListener("DOMContentLoaded", cargarCarrito);
+    document.addEventListener("DOMContentLoaded", function() {
+      cargarCarrito();
+
+      document.querySelector('.btn-outline-secondary').addEventListener('click', function() {
+        const input = document.getElementById("cupon");
+        const codigo = input.value.trim().toUpperCase();
+        const mensaje = document.getElementById("mensaje-cupon") || crearMensajeCupon();
+
+        if (cupones[codigo]) {
+          cuponAplicado = codigo;
+          mensaje.textContent = "¡Cupón aplicado correctamente!";
+          mensaje.className = "text-success mt-2";
+          cargarCarrito();
+        } else {
+          cuponAplicado = null;
+          mensaje.textContent = "Cupón no válido.";
+          mensaje.className = "text-danger mt-2";
+          cargarCarrito();
+        }
+      });
+    });
+
+    // Crea el mensaje debajo del input si no existe
+    function crearMensajeCupon() {
+      const input = document.getElementById("cupon");
+      const mensaje = document.createElement("div");
+      mensaje.id = "mensaje-cupon";
+      input.parentNode.appendChild(mensaje);
+      return mensaje;
+    }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

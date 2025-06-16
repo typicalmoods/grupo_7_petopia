@@ -7,58 +7,94 @@
   <title>Pago - Petopia</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    .input-group-text {
+      background: #17a2b8;
+      color: #fff;
+      border: none;
+    }
+    .form-control:focus {
+      box-shadow: 0 0 0 0.2rem rgba(23,162,184,.25);
+      border-color: #17a2b8;
+    }
+    .card {
+      border-radius: 1rem;
+    }
+    .btn-info, .btn-success {
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+  </style>
 </head>
 <body>
   <main class="container my-5">
     <div class="row justify-content-center">
-      <div class="col-md-6">
+      <div class="col-md-7 col-lg-6">
         <div class="card shadow">
           <div class="card-body text-center">
-            <h2 class="mb-4">Pago ficticio</h2>
+            <h2 class="mb-4"><i class="bi bi-credit-card-2-front-fill me-2"></i>Completar pedido</h2>
             <div id="paso1">
-              <p>Introduce tus datos para el envío:</p>
+              <p class="mb-4">Introduce tus datos para el envío:</p>
               <form id="form-datos-envio">
-                <div class="mb-3">
-                  <label for="nombreEnvio" class="form-label">Nombre completo</label>
-                  <input type="text" class="form-control" id="nombreEnvio" required>
+                <div class="input-group mb-3">
+                  <span class="input-group-text bg-info text-white">
+                    <i class="bi bi-person-fill"></i>
+                  </span>
+                  <input type="text" class="form-control bg-light" id="nombreEnvio" placeholder="Nombre completo" required>
                 </div>
-                <div class="mb-3">
-                  <label for="direccionEnvio" class="form-label">Dirección</label>
-                  <input type="text" class="form-control" id="direccionEnvio" required>
+                <div class="input-group mb-3">
+                  <span class="input-group-text bg-info text-white">
+                    <i class="bi bi-geo-alt-fill"></i>
+                  </span>
+                  <input type="text" class="form-control bg-light" id="direccionEnvio" placeholder="Dirección" required>
                 </div>
-                <div class="mb-3">
-                  <label for="telefonoEnvio" class="form-label">Teléfono</label>
-                  <input type="text" class="form-control" id="telefonoEnvio" required>
+                <div class="input-group mb-3">
+                  <span class="input-group-text bg-info text-white">
+                    <i class="bi bi-telephone-fill"></i>
+                  </span>
+                  <input type="text" class="form-control bg-light" id="telefonoEnvio" placeholder="Teléfono" required>
                 </div>
-                <div class="mb-3">
-                  <label for="emailEnvio" class="form-label">Correo electrónico</label>
-                  <input type="email" class="form-control" id="emailEnvio" required>
+                <div class="input-group mb-3">
+                  <span class="input-group-text bg-info text-white">
+                    <i class="bi bi-envelope-fill"></i>
+                  </span>
+                  <input type="email" class="form-control bg-light" id="emailEnvio" placeholder="Correo electrónico" required>
                 </div>
-                <button type="submit" class="btn btn-info w-100">Siguiente</button>
+                <button type="submit" class="btn btn-info w-100 mb-2 text-white fw-semibold">
+                  Siguiente <i class="bi bi-arrow-right-circle ms-1"></i>
+                </button>
               </form>
             </div>
             <div id="paso2" style="display:none;">
-              <p>Introduce los datos de tu tarjeta para simular el pago.</p>
+              <p class="mb-4">Introduce los datos de tu tarjeta para simular el pago.</p>
+              <div id="resumen-carrito" class="mb-4"></div>
               <form id="form-pago">
-                <div class="mb-3">
-                  <label for="numeroTarjeta" class="form-label">Número de tarjeta</label>
-                  <input type="text" class="form-control" id="numeroTarjeta" maxlength="16" required>
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
+                  <input type="text" class="form-control" id="numeroTarjeta" maxlength="16" placeholder="Número de tarjeta" required>
                 </div>
-                <div class="mb-3">
-                  <label for="nombreTitular" class="form-label">Nombre del titular</label>
-                  <input type="text" class="form-control" id="nombreTitular" required>
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="bi bi-person-badge-fill"></i></span>
+                  <input type="text" class="form-control" id="nombreTitular" placeholder="Nombre del titular" required>
                 </div>
                 <div class="row">
                   <div class="col-6 mb-3">
-                    <label for="caducidad" class="form-label">Caducidad</label>
-                    <input type="text" class="form-control" id="caducidad" placeholder="MM/AA" maxlength="5" required>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                      <input type="text" class="form-control" id="caducidad" placeholder="MM/AA" maxlength="5" required>
+                    </div>
                   </div>
                   <div class="col-6 mb-3">
-                    <label for="cvv" class="form-label">CVV</label>
-                    <input type="text" class="form-control" id="cvv" maxlength="3" required>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-shield-lock-fill"></i></span>
+                      <input type="text" class="form-control" id="cvv" maxlength="3" placeholder="CVV" required>
+                    </div>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-success w-100">Pagar</button>
+                <button type="submit" class="btn btn-success w-100">
+                  <i class="bi bi-bag-check-fill me-1"></i>Pagar
+                </button>
               </form>
             </div>
             <div id="mensaje-pago" class="mt-3"></div>
@@ -70,11 +106,50 @@
   <?php include 'includes/footer.php'; ?>
 
   <script>
+    function mostrarResumenCarrito() {
+      const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+      const resumenDiv = document.getElementById("resumen-carrito");
+      if (!resumenDiv) return;
+
+      if (carrito.length === 0) {
+        resumenDiv.innerHTML = `<div class="alert alert-warning">Tu carrito está vacío.</div>`;
+        return;
+      }
+
+      let html = `
+        <h5 class="mb-3"><i class="bi bi-bag"></i> Productos en tu pedido</h5>
+        <ul class="list-group mb-2">
+      `;
+      let total = 0;
+      carrito.forEach(prod => {
+        const subtotal = (parseFloat(prod.price) * prod.cantidad);
+        total += subtotal;
+        html += `
+          <li class="list-group-item d-flex align-items-center">
+            <img src="${prod.image || 'assets/img/no-image.png'}" alt="${prod.name}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;margin-right:12px;">
+            <div class="flex-grow-1 text-start">
+              <strong>${prod.name}</strong>
+              <div class="text-muted small">x${prod.cantidad}</div>
+            </div>
+            <span class="fw-semibold">${subtotal.toFixed(2)} €</span>
+          </li>
+        `;
+      });
+      html += `</ul>
+        <div class="d-flex justify-content-between fs-5">
+          <span>Total</span>
+          <strong>${total.toFixed(2)} €</strong>
+        </div>
+      `;
+      resumenDiv.innerHTML = html;
+    }
+
     // Paso 1: Datos de envío
     document.getElementById("form-datos-envio").addEventListener("submit", function(e) {
       e.preventDefault();
       document.getElementById("paso1").style.display = "none";
       document.getElementById("paso2").style.display = "block";
+      mostrarResumenCarrito(); // <-- Añade esta línea
     });
 
     // Paso 2: Pago
@@ -106,7 +181,8 @@
         if (response.ok) {
           document.getElementById("mensaje-pago").innerHTML = `
             <div class="alert alert-success text-center">
-              ¡Pago realizado con éxito!<br>Gracias por tu compra.
+              <i class="bi bi-check-circle-fill" style="font-size:2rem;color:#198754;"></i><br>
+              ¡Pago realizado correctamente!<br>Serás redirigido en unos segundos...
             </div>
           `;
           localStorage.removeItem("carrito");
@@ -116,6 +192,7 @@
         } else {
           document.getElementById("mensaje-pago").innerHTML = `
             <div class="alert alert-danger text-center">
+              <i class="bi bi-x-circle-fill" style="font-size:2rem;color:#dc3545;"></i><br>
               Error al guardar el pedido: ${data.error || "Inténtalo de nuevo"}
             </div>
           `;
@@ -123,6 +200,7 @@
       } catch (err) {
         document.getElementById("mensaje-pago").innerHTML = `
           <div class="alert alert-danger text-center">
+            <i class="bi bi-x-circle-fill" style="font-size:2rem;color:#dc3545;"></i><br>
             Error de conexión con el servidor.
           </div>
         `;

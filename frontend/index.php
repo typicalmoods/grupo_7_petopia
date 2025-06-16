@@ -18,9 +18,9 @@ include 'includes/header.php';
     <!-- BANNER -->
     <div class="slider">
         <div class="slider-track">  
-            <img src="./assets/img/banner1.jpg" alt="Imagen 1">
-            <img src="./assets/img/banner2.jpg" alt="Imagen 2">
-            <img src="./assets/img/banner3.jpg" alt="Imagen 3">
+            <img src="./assets/img/banner1.jpg" alt="Imagen 1" onclick="window.location='ofertas.php'">
+            <img src="./assets/img/banner2.jpg" alt="Imagen 2" id="img-destacados">
+            <img src="./assets/img/banner3.jpg" alt="Imagen 3" id="img-destacados">
         </div>
     </div>
 
@@ -53,7 +53,7 @@ include 'includes/header.php';
                         </div>
                         <div class="producto-details">
                             <h3 class="producto-marca"><?php echo htmlspecialchars($producto['name']); ?></h3>
-                            <p class="producto-description"><?php echo htmlspecialchars($producto['description']); ?></p>
+                            <p class="producto-description"><?php echo htmlspecialchars($producto['brand']); ?></p>
                             <div class="precio-favorito">
                                 <span class="producto-precio"><?php echo htmlspecialchars($producto['price']); ?> €</span>
                                 <span class="favorite-icon" data-id="<?php echo $producto['id']; ?>">
@@ -144,6 +144,14 @@ include 'includes/header.php';
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+    document.getElementById('img-destacados').addEventListener('click', function() {
+      const destacados = document.querySelector('.destacados');
+      if (destacados) {
+        destacados.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+    </script>
 </body>
 </html>
 

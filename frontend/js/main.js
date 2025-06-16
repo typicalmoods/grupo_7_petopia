@@ -36,7 +36,7 @@ function mostrarProductos(lista) {
       </div>
       <div class="producto-details">
         <h3 class="producto-marca">${producto.name}</h3>
-        <p class="producto-description">${producto.description}</p>
+        <p class="producto-description">${producto.brand}</p>
         <div class="precio-favorito">
           <span class="producto-precio">${producto.price} €</span>
           <span class="favorite-icon" data-id="${producto.id}">
@@ -480,5 +480,6 @@ document.addEventListener("DOMContentLoaded", function() {
       formContacto.reset();
     });
   }
+  
 });
 
