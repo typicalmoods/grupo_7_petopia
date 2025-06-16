@@ -2,6 +2,7 @@ from database import db
 from flask import Blueprint, jsonify, request, session
 from http import HTTPStatus
 from carts.models.cart import Cart
+from products.models.product import Product
 import logging
 
 cart_bp = Blueprint('cart_bp', __name__, url_prefix='/api/v1/carts')
@@ -55,8 +56,31 @@ def create_carts():
         if quantity <= 0:
             db.session.rollback()
             return jsonify({"error": "Quantity must be a positive number"}), HTTPStatus.BAD_REQUEST
-
+        
+        existing_cart = Product.get_by_id(product_id)
+        if not existing_cart:
+            db.session.rollback()
+            return jsonify({"error": f"Product with id {product_id} does not exist"}), HTTPStatus.NOT_FOUND
+        
         new_cart = Cart.create(user_id, product_id, quantity)
         created_carts.append(new_cart.to_dict())
 
     return jsonify(created_carts), HTTPStatus.CREATED
+
+
+@cart_bp.route('/<int:cart_id>/cancel', methods=['POST'])
+def cancel_cart(cart_id):
+    if "user_id" not in session:
+        return jsonify({"message": "Unauthorized"}), HTTPStatus.UNAUTHORIZED
+
+    cart = Cart.get_by_id(cart_id)
+    if not cart:
+        return jsonify({"error": "Cart not found"}), HTTPStatus.NOT_FOUND
+
+    if cart.user_id != session["user_id"]:
+        return jsonify({"message": "Forbidden: You can only cancel your own cart"}), HTTPStatus.FORBIDDEN
+
+    updated_cart = Cart.update_status(cart, 'CANCELLED')
+    if updated_cart:
+        return jsonify(updated_cart.to_dict()), HTTPStatus.OK
+    return jsonify({"error": "Failed to cancel cart"}), HTTPStatus.INTERNAL_SERVER_ERROR
