@@ -2,6 +2,7 @@ from database import db
 from flask import Blueprint, jsonify, request, session
 from http import HTTPStatus
 from carts.models.cart import Cart
+from products.models.product import Product
 import logging
 
 cart_bp = Blueprint('cart_bp', __name__, url_prefix='/api/v1/carts')
@@ -55,7 +56,12 @@ def create_carts():
         if quantity <= 0:
             db.session.rollback()
             return jsonify({"error": "Quantity must be a positive number"}), HTTPStatus.BAD_REQUEST
-
+        
+        existing_cart = Product.get_by_id(product_id)
+        if not existing_cart:
+            db.session.rollback()
+            return jsonify({"error": f"Product with id {product_id} does not exist"}), HTTPStatus.NOT_FOUND
+        
         new_cart = Cart.create(user_id, product_id, quantity)
         created_carts.append(new_cart.to_dict())
 
