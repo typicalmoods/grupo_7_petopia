@@ -1,21 +1,38 @@
 console.log("main.js cargado");
 
-// ----------------- Variables -----------------
+// ----------------- Variables globales -----------------
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+let productosAPI = []; // Solo usamos esta variable
+
 const productContainer = document.querySelector(".producto-container");
 const carritoContador = document.getElementById("carrito-contador");
 const favoritesList = document.getElementById("favoritesList");
 const noFavorites = document.getElementById("noFavorites");
 const inputBusqueda = document.querySelector(".barraBusqueda");
 const botonBuscar = document.querySelector(".search-btn");
-let productosAPI = window.productosAPI || [];
 
-// Sugerencias
+// Sugerencias para el buscador
 const sugerenciasContainer = document.createElement("div");
 sugerenciasContainer.id = "sugerencias";
 sugerenciasContainer.classList.add("sugerencias-container");
 inputBusqueda?.parentNode?.appendChild(sugerenciasContainer);
+
+// ----------------- Utilidades -----------------
+/** Devuelve la mejor imagen disponible para un producto */
+function getImagenProducto(producto) {
+  return producto.url_image || producto.image || '/assets/img/default.jpg';
+}
+
+/** Actualiza la variable global y localStorage de favoritos */
+function guardarFavoritos() {
+  localStorage.setItem("favoritos", JSON.stringify(favoritos));
+}
+
+/** Recarga favoritos desde localStorage */
+function cargarFavoritos() {
+  favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+}
 
 // ----------------- Mostrar productos -----------------
 function mostrarProductos(lista) {
@@ -23,7 +40,7 @@ function mostrarProductos(lista) {
   productContainer.innerHTML = "";
 
   lista.forEach((producto) => {
-    const imageUrl = producto.url_image || producto.image || '/assets/img/default.jpg';
+    const imageUrl = getImagenProducto(producto);
     const card = document.createElement("div");
     card.className = "producto-card";
     card.style.cursor = "pointer";
@@ -57,6 +74,7 @@ function mostrarProductos(lista) {
       </div>
     `;
 
+    // Click en la tarjeta: ir al detalle (excepto si es botón de carrito o favorito)
     card.addEventListener("click", function(e) {
       if (e.target.closest(".agregarAlCarrito") || e.target.closest(".favorite-icon")) return;
       window.location.href = `detalle.php?id=${producto.id}`;
@@ -77,18 +95,16 @@ function actualizarContadorCarrito() {
 
 // ----------------- Favoritos -----------------
 function toggleFavorito(producto) {
-  const card = document.querySelector(`.producto-card[data-id="${producto.id}"]`);
-  const image = card ? card.dataset.image : (producto.url_image || producto.image || '/assets/img/default.jpg');
   const existente = favoritos.find(item => item.id == producto.id);
   if (existente) {
     favoritos = favoritos.filter(item => item.id != producto.id);
   } else {
     favoritos.push({
       ...producto,
-      image: image
+      image: getImagenProducto(producto)
     });
   }
-  localStorage.setItem("favoritos", JSON.stringify(favoritos));
+  guardarFavoritos();
 }
 
 function esFavorito(producto) {
@@ -97,7 +113,7 @@ function esFavorito(producto) {
 
 // ----------------- Modal de Favoritos -----------------
 function cargarFavoritosModal() {
-  const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+  cargarFavoritos();
   favoritesList.innerHTML = "";
 
   if (favoritos.length === 0) {
@@ -113,7 +129,7 @@ function cargarFavoritosModal() {
 
       item.innerHTML = `
         <div class="d-flex align-items-center">
-          <img src="${producto.url_image || producto.image || '/assets/img/default.jpg'}" alt="${producto.name}" class="me-3 rounded" style="width: 50px; height: 50px; object-fit: cover;">
+          <img src="${getImagenProducto(producto)}" alt="${producto.name}" class="me-3 rounded" style="width: 50px; height: 50px; object-fit: cover;">
           <div>
             <h6 class="mb-0">${producto.name}</h6>
             <small class="text-muted">${producto.description}</small>
@@ -130,20 +146,16 @@ function cargarFavoritosModal() {
       favoritesList.appendChild(item);
     });
 
-    document.querySelectorAll(".remove-favorite").forEach(button => {
+    favoritesList.querySelectorAll(".remove-favorite").forEach(button => {
       button.addEventListener("click", (e) => {
         const index = e.target.closest("button").dataset.index;
-        eliminarFavorito(index);
+        favoritos.splice(index, 1);
+        guardarFavoritos();
         cargarFavoritosModal();
         pintarCorazones();
       });
     });
   }
-}
-
-function eliminarFavorito(index) {
-  favoritos.splice(index, 1);
-  localStorage.setItem("favoritos", JSON.stringify(favoritos));
 }
 
 // ----------------- Buscar y sugerencias -----------------
@@ -183,7 +195,7 @@ function mostrarSugerencias() {
     const item = document.createElement("div");
     item.className = "sugerencia-item";
     item.innerHTML = `
-      <img src="${producto.url_image || '/assets/img/default.jpg'}" alt="${producto.name}" style="width:32px;height:32px;object-fit:cover;margin-right:8px;">
+      <img src="${getImagenProducto(producto)}" alt="${producto.name}" style="width:32px;height:32px;object-fit:cover;margin-right:8px;">
       <span>${producto.name}</span>
     `;
     item.style.cursor = "pointer";
@@ -240,23 +252,21 @@ const secciones = [
   },
   {
     titulo: "Otros Animales",
-    imagenAnimal: "./assets/img/otrosAnimales.webp", // Cambia la ruta cuando tengas la imagen
+    imagenAnimal: "./assets/img/otrosAnimales.webp",
     filtro: "otrosAnimales",
     tipo: "animal"
   },
   {
     titulo: "Juguetes",
-    imagenAnimal: "./assets/img/juguetes.png", // Cambia la ruta cuando tengas la imagen
+    imagenAnimal: "./assets/img/juguetes.png",
     filtro: "Toys",
     tipo: "categoria"
   },
-   {
+  {
     titulo: "Ofertas",
     imagenAnimal: "./assets/img/categoriaOfertas.png",
-    ruta: "ofertas.php" // <-- Añade esta línea
+    ruta: "ofertas.php"
   }
-
-  
 ];
 
 // ----------------- Mostrar secciones -----------------
@@ -269,7 +279,6 @@ function mostrarSecciones() {
   secciones.forEach((seccion) => {
     const card = document.createElement("div");
     card.className = "seccion-card";
-    // Usa la misma lógica de href que en el nav
     const href = seccion.ruta ? seccion.ruta : `index.php?filtro=${encodeURIComponent(seccion.filtro)}`;
 
     card.innerHTML = `
@@ -291,7 +300,6 @@ function mostrarSeccionesNav() {
   secciones.forEach((seccion) => {
     const li = document.createElement("li");
     li.className = "nav-item";
-    // Si la sección tiene 'ruta', usa esa ruta, si no, usa el filtro
     const href = seccion.ruta ? seccion.ruta : `index.php?filtro=${encodeURIComponent(seccion.filtro)}`;
     li.innerHTML = `
       <a href="${href}" class="nav-link d-flex align-items-center">
@@ -303,8 +311,8 @@ function mostrarSeccionesNav() {
   });
 }
 
-// ----------------- Inicialización ÚNICA -----------------
-document.addEventListener("DOMContentLoaded", function() {
+// ----------------- Inicialización principal -----------------
+function inicializarApp() {
   // --- Filtro por parámetro en la URL ---
   function getParam(name) {
     const url = new URL(window.location.href);
@@ -315,23 +323,20 @@ document.addEventListener("DOMContentLoaded", function() {
   if (filtro) {
     let productosFiltrados = [];
     if (["Toys", "Food", "Accessories"].includes(filtro)) {
-      productosFiltrados = window.productosAPI.filter(p => p.category === filtro);
+      productosFiltrados = productosAPI.filter(p => p.category === filtro);
     } else if (["Perro", "Gato", "Pájaro"].includes(filtro)) {
-      productosFiltrados = window.productosAPI.filter(p => p.animal_species === filtro);
+      productosFiltrados = productosAPI.filter(p => p.animal_species === filtro);
     } else if (filtro === "otrosAnimales") {
-      // Incluye todos los productos de especies "Hámster", "Reptil", "Cobaya", "Roedor"
       const especiesOtros = ["Hámster", "Reptil", "Cobaya", "Roedor"];
-      productosFiltrados = window.productosAPI.filter(p => especiesOtros.includes(p.animal_species));
+      productosFiltrados = productosAPI.filter(p => especiesOtros.includes(p.animal_species));
     }
     mostrarProductos(productosFiltrados);
 
-    // Oculta slider, banner y principal si hay filtro
     document.querySelectorAll('.slider, .banner, .principal').forEach(el => el.style.display = "none");
-    // Cambia el título si quieres
     const titulo = document.querySelector(".destacados h3");
     if (titulo) titulo.textContent = filtro;
   } else {
-    mostrarProductos(window.productosAPI);
+    mostrarProductos(productosAPI);
   }
 
   mostrarSecciones();
@@ -383,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
       }
       localStorage.setItem("carrito", JSON.stringify(carrito));
-      if (typeof actualizarContadorCarrito === "function") actualizarContadorCarrito();
+      actualizarContadorCarrito();
       // Muestra el toast de Bootstrap
       const toastEl = document.getElementById('toastCarrito');
       if (toastEl) {
@@ -393,9 +398,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // Favoritos with Hearts
+  // Favoritos con corazones
   function pintarCorazones() {
-    const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    cargarFavoritos();
     document.querySelectorAll('.favorite-icon').forEach(icon => {
       const id = parseInt(icon.dataset.id);
       if (favoritos.some(item => item.id == id)) {
@@ -419,7 +424,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   pintarCorazones();
-  cargarFavoritosModal();
 
   // Menú: redirige siempre a index.php con el filtro
   const btnJuguetes = document.getElementById("ver-juguetes");
@@ -446,6 +450,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
+  // Menú hamburguesa para móvil
   const btnHamburguesa = document.getElementById("menu-hamburguesa");
   const navMenu = document.getElementById("nav-secciones");
 
@@ -454,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function() {
       navMenu.classList.toggle("menu-abierto");
     });
 
-    // Opcional: cerrar el menú al hacer click fuera
+    // Cerrar el menú al hacer click fuera
     document.addEventListener("click", function(e) {
       if (
         navMenu.classList.contains("menu-abierto") &&
@@ -466,7 +471,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // Contact Form Submission
+  // Formulario de contacto
   const formContacto = document.getElementById("form-contacto");
   const mensajeContacto = document.getElementById("mensaje-contacto");
   if (formContacto) {
@@ -480,6 +485,21 @@ document.addEventListener("DOMContentLoaded", function() {
       formContacto.reset();
     });
   }
-  
-});
+}
 
+// ----------------- Carga de productos y arranque de la app -----------------
+document.addEventListener("DOMContentLoaded", function() {
+  // Si los productos no están cargados, haz fetch y luego inicializa la app
+  if (!window.productosAPI || window.productosAPI.length === 0) {
+    fetch("http://localhost:5051/api/v1/products")
+      .then(res => res.json())
+      .then(data => {
+        window.productosAPI = data;
+        productosAPI = data;
+        inicializarApp();
+      });
+  } else {
+    productosAPI = window.productosAPI;
+    inicializarApp();
+  }
+});
