@@ -9,7 +9,7 @@ from carts.controllers import cart_bp
 import logging
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 init_app(app)
 
 # Secret key for session management
