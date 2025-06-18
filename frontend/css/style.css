@@ -173,8 +173,7 @@ header {
 .cerrar-sesion{
   background-color: #e63946;
   color: white !important;
-  padding: 4px 8px;
-  font-size: 0.75rem !important;
+  font-size: 12px !important;
   border: none;
   border-radius: 6px;
   text-decoration: none;

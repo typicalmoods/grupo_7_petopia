@@ -19,8 +19,9 @@ include 'includes/header.php';
     <div class="slider">
         <div class="slider-track">  
             <img src="./assets/img/banner1.jpg" alt="Imagen 1" onclick="window.location='ofertas.php'">
+            <img src="./assets/img/bannerFinal.jpg" alt="Imagen 3"  onclick="window.location='ofertas.php'" id="img-destacados">
             <img src="./assets/img/banner2.jpg" alt="Imagen 2" id="img-destacados">
-            <img src="./assets/img/banner3.jpg" alt="Imagen 3" id="img-destacados">
+
         </div>
     </div>
 

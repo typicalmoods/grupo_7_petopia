@@ -19,6 +19,9 @@
             <a href="index.php">
                 <img src="./assets/img/logoPetopia.png" alt="Logo de la marca">
             </a>
+            <?php if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]): ?>
+<a class="btn" style="background-color: rgb(52, 58, 64); color: white; padding: 4px 8px; font-size: 12px; border-radius: 4px; text-decoration: none;" href="../admin.php">Administración</a>
+            <?php endif; ?>
         </div>
 
         <!-- Buscador -->
@@ -33,7 +36,7 @@
         <div class="user-cart">
             <?php if (isset($_SESSION["usuario"])): ?>
                 <a href="logout.php" class="cerrar-sesion">
-                    Cerrar sesión como <?= htmlspecialchars($_SESSION["usuario"]) ?>
+                    <i class="bi bi-power"></i> <?= htmlspecialchars($_SESSION["usuario"]) ?>
                 </a>
             <?php else: ?>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" title="Iniciar Sesión">

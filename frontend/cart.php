@@ -61,15 +61,15 @@
             <div id="descuento-cupon"></div>
 
             <div class="mt-4">
-              <?php if (isset($_SESSION["usuario"])): ?>
-                  <a href="pago.php" class="btn btn-primary w-100">Acceder al pago</a>
-              <?php else: ?>
-                  <button class="btn btn-primary w-100" disabled>Acceder al pago</button>
-                  <div class="alert alert-warning mt-2 text-center">
-                      Debes iniciar sesión para continuar con el pago.
-                  </div>
-              <?php endif; ?>
-            </div>
+            <?php if (isset($_SESSION["usuario"])): ?>
+                <a id="btn-pago" href="pago.php" class="btn btn-primary w-100">Acceder al pago</a>
+            <?php else: ?>
+                <button id="btn-pago" class="btn btn-primary w-100" disabled>Acceder al pago</button>
+                <div id="alerta-login" class="alert alert-warning mt-2 text-center">
+                    Debes iniciar sesión para continuar con el pago.
+                </div>
+            <?php endif; ?>
+              </div>
 
             <div class="text-center mt-3">
               <div class="mt-2">
@@ -206,6 +206,22 @@
       document.querySelectorAll(".remove-item").forEach(button => {
         button.addEventListener("click", (e) => eliminarProducto(e.target.dataset.index));
       });
+
+      // Habilitar o deshabilitar el botón de pago
+      const btnPago = document.getElementById("btn-pago");
+      if (btnPago) {
+        if (carrito.length === 0) {
+          btnPago.classList.add("disabled");
+          btnPago.setAttribute("aria-disabled", "true");
+          btnPago.href = "#";
+          btnPago.onclick = (e) => { e.preventDefault(); };
+        } else {
+          btnPago.classList.remove("disabled");
+          btnPago.removeAttribute("aria-disabled");
+          btnPago.href = "pago.php";
+          btnPago.onclick = null;
+        }
+      }
     }
 
     // Función para actualizar la cantidad de un producto
