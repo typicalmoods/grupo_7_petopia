@@ -11,12 +11,11 @@
             <div class="col-md-3 mb-3">
                 <h5>General</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-light text-decoration-none">Inicio</a></li>
+                    <li><a href="index.php" class="text-light text-decoration-none">Inicio</a></li>
                     <li><a href="#" class="text-light text-decoration-none">Productos</a></li>
                     <li><a href="#" class="text-light text-decoration-none">Marcas</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Ofertas</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Servicios veterinarios</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Adopciones</a></li>
+                    <li><a href="ofertas.php" class="text-light text-decoration-none">Ofertas</a></li>
+            
                 </ul>
             </div>
 
@@ -24,8 +23,6 @@
             <div class="col-md-3 mb-3">
                 <h5>Nuestra tienda</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-light text-decoration-none">Sobre nosotros</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Clínicas y hospitales</a></li>
                     <li><a href="#" class="text-light text-decoration-none">Política de privacidad</a></li>
                     <li><a href="#" class="text-light text-decoration-none">Condiciones de uso</a></li>
                 </ul>
@@ -36,10 +33,6 @@
                 <h5>Ayuda</h5>
                 <ul class="list-unstyled">
                     <li><a href="#" class="text-light text-decoration-none">Contáctanos</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Preguntas frecuentes</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Seguimiento de pedidos</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Blog y consejos</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Trabaja con nosotros</a></li>
                 </ul>
             </div>
         </div>

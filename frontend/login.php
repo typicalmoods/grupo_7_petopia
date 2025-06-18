@@ -58,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             setcookie("session", $cookie, time() + 3600, "/", "", false, true); // HttpOnly
         }
         $_SESSION["usuario"] = $username;
+        $_SESSION["is_admin"] = ($username === "admin"); // <--- Aquí
         echo json_encode(["success" => true, "message" => "Login correcto"]);
     } else {
         http_response_code(401);

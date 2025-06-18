@@ -105,6 +105,25 @@
   </main>
   <?php include 'includes/footer.php'; ?>
 
+  <!-- Modal de confirmación de cancelación -->
+  <div class="modal fade" id="modalCancelarPedido" tabindex="-1" aria-labelledby="modalCancelarPedidoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="modalCancelarPedidoLabel"><i class="bi bi-x-circle me-2"></i>Cancelar pedido</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p class="mb-0">¿Seguro que quieres cancelar tu pedido?<br><small class="text-danger">Esta acción no se puede deshacer.</small></p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, volver</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarCancelar">Sí, cancelar pedido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     function mostrarResumenCarrito() {
       const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -152,60 +171,142 @@
       mostrarResumenCarrito(); // <-- Añade esta línea
     });
 
-    // Paso 2: Pago
-    document.getElementById("form-pago").addEventListener("submit", async function(e) {
+    // Paso 2: Pago ficticio
+    document.getElementById("form-pago").addEventListener("submit", function(e) {
       e.preventDefault();
+
+      // Recoge los datos de envío del paso 1
+      const nombre = document.getElementById("nombreEnvio").value;
+      const direccion = document.getElementById("direccionEnvio").value;
+      const telefono = document.getElementById("telefonoEnvio").value;
+      const email = document.getElementById("emailEnvio").value;
 
       // Recoge los productos del carrito
       const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-      // Prepara los datos para el backend
-      const productos = carrito.map(p => ({
-        product_id: p.id,
-        quantity: p.cantidad
-      }));
+      // Construye la tabla de productos
+      let productosHtml = `
+        <table class="table table-bordered mt-3">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      let total = 0;
+      carrito.forEach(prod => {
+        const subtotal = (parseFloat(prod.price) * prod.cantidad);
+        total += subtotal;
+        productosHtml += `
+          <tr>
+            <td><img src="${prod.image || 'assets/img/no-image.png'}" alt="${prod.name}" style="width:40px;height:40px;object-fit:cover;"></td>
+            <td>${prod.name}</td>
+            <td>${prod.cantidad}</td>
+            <td>${subtotal.toFixed(2)} €</td>
+          </tr>
+        `;
+      });
+      productosHtml += `
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="3" class="text-end">Total</th>
+              <th>${total.toFixed(2)} €</th>
+            </tr>
+          </tfoot>
+        </table>
+      `;
 
-      // Envía el pedido al backend
-      try {
-        const response = await fetch("http://localhost:5051/api/v1/carts/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          credentials: "include", // Para enviar la cookie de sesión
-          body: JSON.stringify({ products: productos })
-        });
+      // Muestra el resumen en el mensaje de pago, con los dos botones
+      document.getElementById("mensaje-pago").innerHTML = `
+        <div class="alert alert-success text-center">
+          <i class="bi bi-check-circle-fill" style="font-size:2rem;color:#198754;"></i><br>
+          ¡Pedido realizado correctamente!<br>
+        </div>
+        <h5 class="mt-4 mb-2 text-start">Datos de envío</h5>
+        <ul class="list-group mb-3 text-start">
+          <li class="list-group-item"><strong>Nombre:</strong> ${nombre}</li>
+          <li class="list-group-item"><strong>Dirección:</strong> ${direccion}</li>
+          <li class="list-group-item"><strong>Teléfono:</strong> ${telefono}</li>
+          <li class="list-group-item"><strong>Email:</strong> ${email}</li>
+        </ul>
+        <h5 class="mb-2 text-start">Productos comprados</h5>
+        ${productosHtml}
+        <div class="d-flex flex-column flex-md-row gap-2 justify-content-center mt-3">
+          <button id="btn-cancelar-pedido" class="btn btn-outline-danger">
+            <i class="bi bi-x-circle me-1"></i>Cancelar pedido
+          </button>
+          <button id="btn-volver-menu" class="btn btn-outline-secondary">
+            <i class="bi bi-house-door me-1"></i>Volver al menú principal
+          </button>
+        </div>
+      `;
 
-        const data = await response.json();
+      // Limpia el carrito
+      localStorage.removeItem("carrito");
 
-        if (response.ok) {
-          document.getElementById("mensaje-pago").innerHTML = `
-            <div class="alert alert-success text-center">
-              <i class="bi bi-check-circle-fill" style="font-size:2rem;color:#198754;"></i><br>
-              ¡Pago realizado correctamente!<br>Serás redirigido en unos segundos...
-            </div>
-          `;
-          localStorage.removeItem("carrito");
-          setTimeout(() => {
-            window.location.href = "index.php";
-          }, 2000);
-        } else {
-          document.getElementById("mensaje-pago").innerHTML = `
-            <div class="alert alert-danger text-center">
-              <i class="bi bi-x-circle-fill" style="font-size:2rem;color:#dc3545;"></i><br>
-              Error al guardar el pedido: ${data.error || "Inténtalo de nuevo"}
-            </div>
-          `;
-        }
-      } catch (err) {
+      // Oculta el formulario de pago
+      document.getElementById("form-pago").style.display = "none";
+      document.getElementById("resumen-carrito").style.display = "none";
+
+      // Evento para cancelar pedido con confirmación visual (modal)
+      document.getElementById("btn-cancelar-pedido").addEventListener("click", function() {
+        const modal = new bootstrap.Modal(document.getElementById('modalCancelarPedido'));
+        modal.show();
+      });
+
+      // Evento para volver al menú principal tras compra
+      document.getElementById("btn-volver-menu").addEventListener("click", function() {
+        window.location.href = "index.php";
+      });
+
+      // Evento para confirmar cancelación (solo se asigna una vez al cargar la página)
+      document.getElementById("btnConfirmarCancelar").onclick = function() {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('modalCancelarPedido'));
+        modal.hide();
         document.getElementById("mensaje-pago").innerHTML = `
-          <div class="alert alert-danger text-center">
+          <div class="alert alert-warning text-center">
             <i class="bi bi-x-circle-fill" style="font-size:2rem;color:#dc3545;"></i><br>
-            Error de conexión con el servidor.
+            Pedido cancelado.
+          </div>
+          <div class="d-flex justify-content-center mt-3">
+            <button id="btn-volver-menu2" class="btn btn-outline-secondary">
+              <i class="bi bi-house-door me-1"></i>Volver al menú principal
+            </button>
           </div>
         `;
-      }
+        // Asigna el evento al nuevo botón generado
+        document.getElementById("btn-volver-menu2").addEventListener("click", function() {
+          window.location.href = "index.php";
+        });
+      };
+    });
+
+    // Confirmar cancelación de pedido
+    document.getElementById("btnConfirmarCancelar").addEventListener("click", function() {
+      document.getElementById("mensaje-pago").innerHTML = `
+        <div class="alert alert-warning text-center">
+          <i class="bi bi-x-circle-fill" style="font-size:2rem;color:#dc3545;"></i><br>
+          Pedido cancelado.
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+          <button id="btn-volver-menu2" class="btn btn-outline-secondary">
+            <i class="bi bi-house-door me-1"></i>Volver al menú principal
+          </button>
+        </div>
+      `;
+      // Oculta el modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById('modalCancelarPedido'));
+      modal.hide();
+      document.getElementById("btn-volver-menu2").addEventListener("click", function() {
+        window.location.href = "index.php";
+      });
     });
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
