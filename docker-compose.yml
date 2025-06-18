@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: php:8.2-apache                # Usa Apache con PHP
+    image: php:8.2-apache                
     restart: always
     ports:
       - "8081:80"                        
@@ -13,7 +13,7 @@ services:
     build: ./backend
     restart: always
     ports:
-      - "5051:5000"   # Cambia 5050 por 5051, por ejemplo
+      - "5051:5000"  
     environment:
       - FLASK_ENV=development
       - APP_PORT=5000

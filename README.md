@@ -31,8 +31,8 @@ Petopia is a web application that provides a backend API built with Flask and a 
     ```bash
     docker-compose up --build
 3. Access the application:
-    - Frontend: http://localhost:8080
-    - Backend API: http://localhost:5050
+    - Frontend: http://localhost:8081
+    - Backend API: http://localhost:5051
 
 ## API Endpoints
 ### Users
