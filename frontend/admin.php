@@ -80,17 +80,8 @@ if (!isset($_SESSION["is_admin"]) || !$_SESSION["is_admin"]) {
       background: #145c32 !important;
       color: #fff !important;
     }
-    .seccion-usuarios {
-      margin-top: 60px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      padding: 2rem 1.5rem;
-    }
-    .table-usuarios th {
-      background: #0d6efd;
-      color: #fff;
-    }
+ 
+  
     @media (max-width: 900px) {
       .table-responsive { font-size: 0.95em; }
       th, td { padding: 0.5em !important; }
@@ -123,31 +114,6 @@ if (!isset($_SESSION["is_admin"]) || !$_SESSION["is_admin"]) {
         <!-- Aquí se insertan los pedidos -->
       </tbody>
     </table>
-  </div>
-
-  <!-- NUEVA SECCIÓN: Gestión de usuarios -->
-  <div class="seccion-usuarios mt-5">
-    <h2 class="mb-4" style="color:#0d6efd;">Gestión de usuarios registrados</h2>
-    <div class="table-responsive">
-      <table class="table table-bordered table-usuarios" id="tabla-usuarios">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Usuario</th>
-            <th>Email</th>
-            <th>Fecha registro</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Aquí se insertan los usuarios -->
-        </tbody>
-      </table>
-    </div>
-    <div id="usuarios-cargando" class="text-center text-secondary my-3" style="display:none;">
-      <div class="spinner-border text-primary" role="status"></div>
-      <span class="ms-2">Cargando usuarios...</span>
-    </div>
-    <div id="usuarios-error" class="alert alert-danger mt-3" style="display:none;"></div>
   </div>
 </div>
 
@@ -241,46 +207,9 @@ function renderPedidos() {
   });
 }
 
-// --- GESTIÓN DE USUARIOS ---
-function cargarUsuarios() {
-  document.getElementById("usuarios-cargando").style.display = "block";
-  document.getElementById("usuarios-error").style.display = "none";
-  fetch("http://localhost:5051/api/v1/users/", {
-    credentials: "include"
-  })
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("usuarios-cargando").style.display = "none";
-      if (!Array.isArray(data)) {
-        document.getElementById("usuarios-error").textContent = "No se pudieron cargar los usuarios.";
-        document.getElementById("usuarios-error").style.display = "block";
-        return;
-      }
-      const tbody = document.querySelector("#tabla-usuarios tbody");
-      tbody.innerHTML = "";
-      data.forEach(user => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${user.id || "-"}</td>
-            <td>${user.username || "-"}</td>
-            <td>${user.email || "-"}</td>
-            <td>${user.created_at ? new Date(user.created_at).toLocaleString() : "-"}</td>
-            <td>${user.is_admin ? "Admin" : "Usuario"}</td>
-          </tr>
-        `;
-      });
-    })
-    .catch(err => {
-      document.getElementById("usuarios-cargando").style.display = "none";
-      document.getElementById("usuarios-error").textContent = "Error de conexión con el backend.";
-      document.getElementById("usuarios-error").style.display = "block";
-    });
-}
-
-// Llama a renderPedidos y cargarUsuarios al cargar
+// Llama a renderPedidos al cargar
 document.addEventListener("DOMContentLoaded", () => {
   renderPedidos();
-  cargarUsuarios();
 });
 </script>
 </body>

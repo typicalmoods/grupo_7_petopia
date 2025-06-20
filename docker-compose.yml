@@ -5,7 +5,8 @@ services:
     ports:
       - "8081:80"                        
     volumes:
-      - ./frontend:/var/www/html         
+      - ./frontend:/var/www/html
+      - ./database/import_data:/var/www/html/data         
     depends_on:
       - backend
 

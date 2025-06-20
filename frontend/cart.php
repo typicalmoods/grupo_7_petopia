@@ -106,9 +106,9 @@
   <script>
     // Definición de cupones válidos y sus descuentos
     const cupones = {
-      "DESCUENTO10": { tipo: "porcentaje", valor: 10 },      // 10% de descuento
-      "ENVIOGRATIS": { tipo: "envio", valor: 3.99 },         // Envío gratis (3.99€)
-      "5OFF":        { tipo: "porcentaje", valor: 50 }        // 50% de descuento
+      "DESCUENTO10": { tipo: "porcentaje", valor: 10 },    
+      "ENVIOGRATIS": { tipo: "envio", valor: 3.99 },         
+      "5OFF":        { tipo: "porcentaje", valor: 50 }        
     };
 
     let cuponAplicado = null;
@@ -123,7 +123,7 @@
       const envioElement = document.getElementById("envio");
       let envio = 3.99; // Gastos de envío iniciales
 
-      carritoLista.innerHTML = ""; // Limpiar la lista del carrito
+      carritoLista.innerHTML = ""; 
       let subtotal = 0;
       let descuento = 0;
 
